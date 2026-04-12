@@ -253,21 +253,65 @@
     </section>
 
     <section id="map" class="page-view px-6 pt-32 text-center">
-        <h2 class="text-4xl font-black mb-4">Cartographic <span class="text-gradient">Heritage</span></h2>
-        <p class="text-slate-400 mb-12 max-w-xl mx-auto">Navigate the geographic origins of traditional practices.</p>
-        <div class="max-w-5xl mx-auto bg-slate-900/40 rounded-[2.5rem] p-12 border border-white/10 aspect-video flex items-center justify-center relative overflow-hidden group">
-            <div class="absolute inset-0 bg-gradient-br from-cerulean/10 to-mint/10 opacity-50"></div>
-            <i data-lucide="map" class="w-48 h-48 text-white/5 absolute group-hover:scale-110 transition-transform duration-1000"></i>
-            <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-6 w-full">
-                <button onclick="openVideo('The Heart of Meru Heritage', 'Arusha')" class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Arusha</button>
-                <button onclick="openVideo('Sacred Pare Dance Performances', 'Kilimanjaro')" class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Kilimanjaro</button>
-                <button onclick="openVideo('The Spirit of the Makonde', 'Newala')" class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Mtwara</button>
-                <button onclick="openVideo('Hiking the Vidunda Mountains', 'Morogoro')" class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Morogoro</button>
-                <button onclick="openVideo('Visiting a Renowned Traditional Healer', 'Mwanza')" class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Mwanza</button>
-                <button class="glass-card p-6 rounded-2xl hover:bg-gradient-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-sm">Zanzibar</button>
-            </div>
+    <h2 class="text-4xl font-black mb-4">Cartographic <span class="text-gradient">Heritage</span></h2>
+    <p class="text-slate-400 mb-12 max-w-xl mx-auto">Navigate the geographic origins of traditional practices. Click a region to view its exact location on Google Maps.</p>
+    
+    <div class="max-w-5xl mx-auto bg-slate-900/40 rounded-[2.5rem] p-8 md:p-12 border border-white/10 relative overflow-hidden group">
+        <i data-lucide="map" class="w-48 h-48 text-white/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform duration-1000"></i>
+        
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+            <button onclick="window.open('https://www.google.com/maps?q=-7.58,36.92', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Morogoro<br><span class="opacity-70 text-[8px]">Vidunda</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-10.64,39.24', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mtwara<br><span class="opacity-70 text-[8px]">Newala</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-4.21,37.89', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Kilimanjaro<br><span class="opacity-70 text-[8px]">Same</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-3.37,36.89', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Arusha<br><span class="opacity-70 text-[8px]">Meru</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-2.56,33.05', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mwanza<br><span class="opacity-70 text-[8px]">Kisesa</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-1.34,34.36', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mara<br><span class="opacity-70 text-[8px]">Tarime</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-1.33,31.81', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Bukoba<br><span class="opacity-70 text-[8px]">Kagera</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-11.02,37.13', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Ruvuma<br><span class="opacity-70 text-[8px]">Tunduru</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-10.30,39.36', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Lindi<br><span class="opacity-70 text-[8px]">Mtama</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-6.16,39.20', '_blank')" 
+                class="glass-card p-4 rounded-2xl hover:bg-gradient-to-r hover:from-cerulean hover:to-mint hover:text-slate-900 font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Zanzibar<br><span class="opacity-70 text-[8px]">Stone Town</span>
+            </button>
         </div>
-    </section>
+    </div>
+</section>
 
     <section id="profile" class="page-view px-6 pt-32">
         <div class="max-w-2xl mx-auto glass-card p-12 rounded-[3rem] border-white/5 text-center">
