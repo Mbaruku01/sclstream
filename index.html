@@ -168,21 +168,21 @@
 <main class="pb-32">
     <section id="home" class="page-view active">
         <div class="relative h-[85vh] md:h-[90vh] w-full overflow-hidden">
-            <img src="pic/makonde.JPG" class="w-full h-full object-cover scale-105" alt="The Spirit of the Makonde">
+            <img src="pic/flomi2.JPG" class="w-full h-full object-cover scale-105" alt="The Spirit of the Makonde">
             <div class="absolute inset-0 hero-gradient flex flex-col justify-end px-6 pb-20 md:px-16 md:pb-32">
                 <div class="flex items-center gap-2 mb-3 md:mb-4">
                     <span class="w-6 md:w-8 h-[2px] bg-mint"></span>
                     <span class="text-mint font-bold tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs uppercase">Featured Heritage Archive</span>
                 </div>
                 <h2 class="text-4xl md:text-8xl font-black mb-4 md:mb-6 leading-[1.1] md:leading-none">
-                    The Spirit of <br class="hidden md:block">
-                    <span class="text-gradient">The Makonde</span>
+                    The Cultural <br class="hidden md:block">
+                    <span class="text-gradient">Echoes 2025</span>
                 </h2>
                 <p class="max-w-2xl text-slate-300 mb-6 md:mb-8 text-base md:text-xl leading-relaxed font-light">
-                    Witness the traditional dance ceremony in <span class="text-white font-medium">Newala</span>. An unedited journey into the heart of Mtwara's living history.
+                    A Collaborative Project with <span class="text-white font-medium">The Open University of Tanzania </span> Celebrating heritage, identity, and tradition.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
-                    <button onclick="openVideo('The Spirit of the Makonde: Traditional Dance Ceremony in Newala', 'Newala')" class="btn-premium px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 text-base md:text-lg">
+                    <button onclick="openVideo('THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania', 'PARTNERSHIP PROJECT')" class="btn-premium px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 text-base md:text-lg">
     <i data-lucide="play" fill="currentColor" class="w-5 h-5"></i> Watch Experience
 </button>
                     <a href="#archives" class="bg-white/5 backdrop-blur-xl px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 border border-white/10 hover:bg-white/10 transition-all text-base decoration-none">
@@ -237,7 +237,7 @@
 
             <section id="recent-section">
                 <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
-                    <span class="w-1.5 h-6 md:w-2 md:h-8 bg-mint rounded-full"></span>Sacred Ceremonies
+                    <span class="w-1.5 h-6 md:w-2 md:h-8 bg-mint rounded-full"></span>Most Popular Videos
                 </h3>
                 <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="recentRow"></div>
             </section>
@@ -486,6 +486,7 @@
     const contentData = {
         // LANDSCAPE CONTENT (17 Videos in Ascending Order)
         recentlyAdded: [
+            { title: "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania", tag: "PARTNERSHIP PROJECT", img: "pic/flomi2.JPG" },
             { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "pic/vid1.jpg" },
             { title: "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)", tag: "History", img: "pic/vid2.jpg" },
             { title: "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka", tag: "Workshop", img: "pic/thumbnail.png" },
@@ -602,6 +603,7 @@
     function openVideo(title, tag) {
         const videoMap = {
             // Landscape Videos
+            "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania": "UNBqe_b0uAA",
             "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains": "kHeJ74uLe_U",
             "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)": "h1s9dXYZq0g",
             "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka": "mQJ9PjCaQ3E",
