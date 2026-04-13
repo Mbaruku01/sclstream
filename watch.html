@@ -12,7 +12,6 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://apis.google.com/js/platform.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
         body { background-color: #020617; color: white; font-family: 'Inter', sans-serif; margin: 0; }
@@ -83,36 +82,40 @@
     </main>
 
     <script>
-    // IDENTICAL DATA SOURCE FROM INDEX - FULLY REORGANIZED ASCENDING
     const contentData = [
-        // 17 Landscape Videos
-        { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600", vID: "kHeJ74uLe_U" },
-        { title: "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)", tag: "History", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600", vID: "h1s9dXYZq0g" },
-        { title: "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka", tag: "Workshop", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600", vID: "mQJ9PjCaQ3E" },
-        { title: "Chance Ezekiel of the National Museum at the Open University of Tanzania & Shimulimuli Workshop", tag: "Workshop", img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600", vID: "RHOpTKrso9o" },
-        { title: "Inside Tanzania’s National Museum | Culture, History & Heritage", tag: "Museum", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600", vID: "vEWPPTGXDWs" },
-        { title: "Sacred Pare Dance Performances | Traditional Ceremonies in Tanzania", tag: "Pare", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600", vID: "5LFhCxWmB6Q" },
-        { title: "Livestock Keeping in Pare Land 🇹🇿 | Traditional Farming in Tanzania", tag: "Farming", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600", vID: "1F3myf-eo-k" },
-        { title: "Pare Traditional Food Preparation | Authentic Tanzanian Cuisine", tag: "Cuisine", img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600", vID: "cTdXcmM2DiY" },
+        // LANDSCAPE CONTENT (Recently Added)
+        { title: "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania", tag: "PARTNERSHIP PROJECT", img: "pic/flomi2.JPG", vID: "L7lVp9t2vS0" }, // Added vID placeholder
+        { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "pic/vid1.jpg", vID: "kHeJ74uLe_U" },
+        { title: "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)", tag: "History", img: "pic/vid2.jpg", vID: "h1s9dXYZq0g" },
+        { title: "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka", tag: "Workshop", img: "pic/thumbnail.png", vID: "mQJ9PjCaQ3E" },
+        { title: "Chance Ezekiel of the National Museum at the Open University of Tanzania & Shimulimuli Workshop", tag: "Workshop", img: "pic/thumbnail.png", vID: "RHOpTKrso9o" },
+        { title: "Inside Tanzania’s National Museum | Culture, History & Heritage", tag: "Museum", img: "pic/nmt.webp", vID: "vEWPPTGXDWs" },
+        { title: "Sacred Pare Dance Performances | Traditional Ceremonies in Tanzania", tag: "Pare", img: "pic/vid4.jpg", vID: "5LFhCxWmB6Q" },
+        
+        // Tribes
+        { title: "Livestock Keeping in Pare Land 🇹🇿 | Traditional Farming in Tanzania", tag: "Farming", img: "pic/vid5.jpg", vID: "1F3myf-eo-k" },
+        { title: "Pare Traditional Food Preparation | Authentic Tanzanian Cuisine", tag: "Pare", img: "pic/vid6.jpg", vID: "cTdXcmM2DiY" },
         { title: "Makonde Tribe Traditional Dance – Tanzania Culture at Its Best", tag: "Makonde", img: "pic/makonde.JPG", vID: "wXWLRqz7VXY" },
-        { title: "Bama: The Special Ceremonial Dance of the Makonde | Newala, Mtwara", tag: "Makonde", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600", vID: "W1CozcRms4k" },
-        { title: "The Hidden Sanctuary: Spiritual Oral History with Mfumwa Wajani Kibacha", tag: "History", img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600", vID: "15MQScw7Lfw" },
-        { title: "The Spirit of the Makonde: Traditional Dance Ceremony in Newala", tag: "Makonde", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600", vID: "lTzdUBh2D64" },
-        { title: "The Heart of Meru Heritage: Exploring the Makumira Institute, Arusha", tag: "Meru", img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600", vID: "Bm-XIue9ETI" },
-        { title: "Visiting the Home of a Renowned Traditional Healer in Kisesa, Mwanza", tag: "Healer", img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=600", vID: "OIT_2Mtn2uI" },
-        { title: "Inside Lake Duluti: Behind Arusha's Crater Lake", tag: "Arusha", img: "https://images.unsplash.com/photo-1627389812453-93663bc6f406?auto=format&fit=crop&w=600", vID: "FhKYhNsoMkM" },
-        { title: "Hiking the Vidunda Mountains in Search of Ancient Traditions", tag: "Vidunda", img: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600", vID: "ufrcnCxwXhw" },
-        { title: "A Hidden Waterfall in Vidunda, Morogoro!", tag: "Nature", img: "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=600", vID: "qovz2xfWn0Y" },
+        { title: "Bama: The Special Ceremonial Dance of the Makonde | Newala, Mtwara", tag: "Makonde", img: "pic/vid7.jpg", vID: "W1CozcRms4k" },
+        { title: "The Hidden Sanctuary: Spiritual Oral History with Mfumwa Wajani Kibacha", tag: "History", img: "pic/vid8.webp", vID: "15MQScw7Lfw" },
+        { title: "The Spirit of the Makonde: Traditional Dance Ceremony in Newala", tag: "Makonde", img: "pic/vid9.jpg", vID: "lTzdUBh2D64" },
+        
+        // Herbal/Nature
+        { title: "The Heart of Meru Heritage: Exploring the Makumira Institute, Arusha", tag: "Meru", img: "pic/vid10.jpg", vID: "Bm-XIue9ETI" },
+        { title: "Visiting the Home of a Renowned Traditional Healer in Kisesa, Mwanza", tag: "Healer", img: "pic/vid11.webp", vID: "OIT_2Mtn2uI" },
+        { title: "Inside Lake Duluti: Behind Arusha's Crater Lake", tag: "Arusha", img: "pic/vid12.webp", vID: "FhKYhNsoMkM" },
+        { title: "Hiking the Vidunda Mountains in Search of Ancient Traditions", tag: "Vidunda", img: "pic/vid13.jpg", vID: "ufrcnCxwXhw" },
+        { title: "A Hidden Waterfall in Vidunda, Morogoro!", tag: "Nature", img: "pic/vid14.png", vID: "qovz2xfWn0Y" },
 
-        // 8 Cultural Shorts
-        { title: "Meru - Arusha | Nringeringe Dance Group", tag: "Meru", img: "pic/short1.jpg", vID: "I6-iAIeYm2Q", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03", tag: "Arusha", img: "pic/short2.jpg", vID: "Vsmt_c45hXI", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02", tag: "Arusha", img: "pic/short3.jpg", vID: "L9DTEWWMDvI", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha", tag: "Arusha", img: "pic/short4.jpg", vID: "xHRIlMHAs1o", isShort: true },
+        // CULTURAL SHORTS
+        { title: "Meru - Arusha | Nringeringe Dance Group", tag: "Meru", img: "pic/shorts1.jpg", vID: "I6-iAIeYm2Q", isShort: true },
+        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03", tag: "Arusha", img: "pic/shorts2.jpg", vID: "Vsmt_c45hXI", isShort: true },
+        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02", tag: "Arusha", img: "pic/shorts3.jpg", vID: "L9DTEWWMDvI", isShort: true },
+        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha", tag: "Arusha", img: "pic/shorts4.jpg", vID: "xHRIlMHAs1o", isShort: true },
         { title: "KWIZU MOUNTAINS | SAME KILIMANJARO", tag: "Kilimanjaro", img: "pic/kwizu.jpg", vID: "Pt30DBBxB7A", isShort: true },
-        { title: "Preserving Tanzanian History | Makumira Cultural Archives Tour", tag: "Archives", img: "pic/short5.jpg", vID: "LXj3rFzw19o", isShort: true },
-        { title: "The Duluti Lake: Where Nature Meets Culture", tag: "Nature", img: "pic/short6.jpg", vID: "7RELyso8eig", isShort: true },
-        { title: "Welcome to Lake Duluti with ZAKIA MPODI", tag: "Culture", img: "pic/short7.jpg", vID: "ScllVEM8cpE", isShort: true }
+        { title: "Preserving Tanzanian History | Makumira Cultural Archives Tour", tag: "Archives", img: "pic/shorts5.jpg", vID: "LXj3rFzw19o", isShort: true },
+        { title: "The Duluti Lake: Where Nature Meets Culture", tag: "Nature", img: "pic/shorts6.jpg", vID: "7RELyso8eig", isShort: true },
+        { title: "Welcome to Lake Duluti with ZAKIA MPODI", tag: "Culture", img: "pic/shorts7.jpg", vID: "ScllVEM8cpE", isShort: true }
     ];
 
     window.onload = () => {
@@ -125,7 +128,6 @@
         const vDesc = urlParams.get('d');
 
         if (vID) {
-            // Check if this is a short to adjust player ratio
             const currentVideo = contentData.find(i => i.vID === vID);
             const playerContainer = document.getElementById('playerContainer');
             
