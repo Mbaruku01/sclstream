@@ -63,6 +63,52 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --- NEW INTRO SPLASH SCREEN STYLES --- */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #020617; /* Matches body background exactly */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Higher than header and navigation layers */
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+            padding: 24px;
+        }
+
+        .splash-title {
+            background: linear-gradient(to right, #08AEEA, #2AF598);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            text-align: center;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: splashFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes splashFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* --- END OF SPLASH SCREEN STYLES --- */
+
         .glass-nav {
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(25px) saturate(200%);
@@ -125,9 +171,8 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Customizing Pannellum to match your dark theme */
     .pnlm-container {
-        background: #020617 !important; /* Matches slate-950 */
+        background: #020617 !important; 
     }
     .pnlm-load-box {
         background-color: rgba(0, 0, 0, 0.7) !important;
@@ -144,6 +189,12 @@
     </style>
 </head>
 <body>
+
+<div id="splash-screen">
+    <h1 class="splash-title text-3xl md:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl">
+        Digital Cultural Streaming Platform
+    </h1>
+</div>
 
 <header class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center transition-all duration-300" id="mainHeader">
     <div class="flex items-center gap-3">
@@ -559,7 +610,6 @@
 
 <script>
     const contentData = {
-        // LANDSCAPE CONTENT (17 Videos in Ascending Order)
         recentlyAdded: [
             { title: "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania", tag: "PARTNERSHIP PROJECT", img: "pic/flomi2.JPG" },
             { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "pic/vid1.jpg" },
@@ -584,7 +634,6 @@
             { title: "Hiking the Vidunda Mountains in Search of Ancient Traditions", tag: "Vidunda", img: "pic/vid13.jpg" },
             { title: "A Hidden Waterfall in Vidunda, Morogoro!", tag: "Nature", img: "pic/vid14.png" }
         ],
-        // CULTURAL SHORTS (8 Shorts in Ascending Order)
         shorts: [
             { title: "Meru - Arusha | Nringeringe Dance Group", tag: "Meru", img: "pic/shorts1.jpg" },
             { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03", tag: "Arusha", img: "pic/shorts2.jpg" },
@@ -603,6 +652,13 @@
         populateExplore();
         handleScrollEffect();
         setupSearch();
+        
+        // --- TIMED FADE EXECUTOR FOR THE SPLASH LAYER ---
+        // Keeps the text on screen for 2.5 seconds before fading out
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            if(splash) splash.classList.add('fade-out');
+        }, 2500);
     }
 
     function switchTab(tabId) {
@@ -677,7 +733,6 @@
 
     function openVideo(title, tag) {
         const videoMap = {
-            // Landscape Videos
             "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania": "UNBqe_b0uAA",
             "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains": "kHeJ74uLe_U",
             "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)": "h1s9dXYZq0g",
@@ -696,7 +751,6 @@
             "Inside Lake Duluti: Behind Arusha's Crater Lake": "FhKYhNsoMkM",
             "Hiking the Vidunda Mountains in Search of Ancient Traditions": "ufrcnCxwXhw",
             "A Hidden Waterfall in Vidunda, Morogoro!": "qovz2xfWn0Y",
-            // Shorts
             "Meru - Arusha | Nringeringe Dance Group": "I6-iAIeYm2Q",
             "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03": "Vsmt_c45hXI",
             "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02": "L9DTEWWMDvI",
@@ -727,11 +781,9 @@
     window.onload = initApp;
 </script>
 <script>
-    // 1. Create a global object to store the viewer instances
     let viewers = {};
 
     function switchTab(tabId) {
-        // Keep your existing logic
         document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
         
         const targetTab = document.getElementById(tabId);
@@ -756,7 +808,6 @@
     function init360Viewers() {
         try {
             if (document.getElementById('pano-1') && document.getElementById('pano-1').innerHTML === "") {
-                // 2. Assign the viewers to the global object
                 viewers['pano-1'] = pannellum.viewer('pano-1', {
                     "type": "equirectangular",
                     "panorama": "pic/PXL_20260318_081056330.PHOTOSPHERE.jpg",
@@ -781,7 +832,6 @@
                     "showControls": false
                 });
 
-                // Re-run Lucide icons for the 'maximize' buttons
                 if(window.lucide) lucide.createIcons();
             }
         } catch (e) {
@@ -789,7 +839,6 @@
         }
     }
 
-    // 3. New function to trigger full screen
     function togglePanoFull(id) {
         if (viewers[id]) {
             viewers[id].toggleFullscreen();
