@@ -2,210 +2,459 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SCL Swahili Digital Heritage Museum</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-
-
-<!-- A-Frame & Extras -->
-<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/aframe-animation-component@5.2.5/dist/aframe-animation-component.min.js"></script>
-
-<!-- Tailwind CSS -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
-
+<title>ICD 3D GALLERY</title>
 <style>
-body { margin:0; font-family:Arial; background:black; }
-.ui{ position:fixed; background:rgba(0,0,0,0.7); color:white; padding:12px;
-  border-radius:12px; backdrop-filter:blur(8px); z-index:9999;}
-#info{bottom:20px;left:20px;display:none;width:300px}
-#map{top:20px;right:20px}
-#admin{bottom:20px;right:20px;font-size:12px}
-button{cursor:pointer;}
-#startGuidedBtn{
-  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-  z-index:9999; padding:14px 24px; font-size:16px;
-  border-radius:12px; font-weight:bold; color:white;
-  background:linear-gradient(to right,#00c853,#2196f3);
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0a0806;overflow:hidden;font-family:'Helvetica Neue',sans-serif;cursor:grab;}
+body.dragging{cursor:grabbing;}
+canvas{display:block;position:fixed;inset:0;}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;
+  background:linear-gradient(to bottom,rgba(10,8,6,0.9) 0%,transparent 100%);
 }
-#startEquipmentBtn{
-  position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-  z-index:9999; padding:14px 24px; font-size:16px;
-  border-radius:12px; font-weight:bold; color:white;
-  background:linear-gradient(to right,#ff9800,#f44336);
+.nav-logo{font-size:12px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:#f0ece4;display:flex;align-items:center;gap:8px;}
+.nav-logo-icon{width:16px;height:16px;background:#c8956a;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,236,228,0.45);text-decoration:none;transition:color 0.3s;}
+.nav-links a:hover{color:#f0ece4;}
+
+.crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;width:20px;height:20px;}
+.crosshair::before,.crosshair::after{content:'';position:absolute;background:rgba(255,255,255,0.45);border-radius:1px;}
+.crosshair::before{width:1px;height:12px;top:4px;left:9px;}
+.crosshair::after{width:12px;height:1px;top:9px;left:4px;}
+
+.popup{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(18,14,10,0.94);border:1px solid rgba(200,149,106,0.45);
+  padding:32px 44px;text-align:center;z-index:200;
+  opacity:0;pointer-events:none;transition:opacity 0.7s;min-width:270px;
 }
-#popupOverlay{
-  position:fixed; inset:0; background:rgba(0,0,0,0.85);
-  display:none; align-items:center; justify-content:center; z-index:9998;
-}
-#popupOverlay .box{
-  background:white; padding:30px; border-radius:16px; text-align:center; max-width:600px;
-  max-height:90vh; overflow-y:auto;
-}
+.popup.show{opacity:1;pointer-events:all;}
+.popup h2{font-family:Georgia,serif;font-weight:400;font-size:30px;color:#f0ece4;letter-spacing:0.12em;margin-bottom:10px;}
+.popup p{font-size:10px;letter-spacing:0.28em;color:#c8956a;text-transform:uppercase;margin-bottom:22px;}
+.popup button{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;background:transparent;border:1px solid rgba(200,149,106,0.55);color:#c8956a;padding:9px 26px;cursor:pointer;transition:all 0.3s;}
+.popup button:hover{background:rgba(200,149,106,0.12);}
+
+.hint{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(240,236,228,0.3);z-index:100;transition:opacity 1s;pointer-events:none;}
+.hint.gone{opacity:0;}
+
+#loader{position:fixed;inset:0;background:#0a0806;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+#loader h1{font-family:Georgia,serif;font-weight:400;font-size:54px;letter-spacing:0.28em;color:#f0ece4;}
+#loader p{font-size:10px;letter-spacing:0.42em;text-transform:uppercase;color:#c8956a;}
+.lbar{width:180px;height:1px;background:rgba(200,149,106,0.18);}
+.lfill{height:100%;background:#c8956a;width:0;transition:width 0.6s;}
 </style>
 </head>
 <body>
 
-<!-- Info HUD -->
-<div id="info" class="ui"></div>
-
-<div id="map" class="ui">
-<b>SCL National 3D Digital Heritage</b><br>
-Visitor Journey:<br>
-Entrance → History → Culture → Arts → Digital → Archive → Courtyard
+<div id="loader">
+  <h1>ICD</h1>
+  <p>3D Gallery</p>
+  <div class="lbar"><div class="lfill" id="lf"></div></div>
 </div>
 
-<div id="admin" class="ui">
-<b>Government Dashboard</b><br>
-<button onclick="alert('Visitor analytics')">Analytics</button>
-<button onclick="alert('Security enabled')">Security</button>
-<button onclick="alert('Updated')">Update</button>
+<nav>
+  <div class="nav-logo"><div class="nav-logo-icon"></div>ICD &nbsp;·&nbsp; Gallery</div>
+  <ul class="nav-links">
+    <li><a href="#">Exhibits</a></li>
+    <li><a href="#">Galleries</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="crosshair"></div>
+
+<div class="popup" id="popup">
+  <h2>Claude</h2>
+  <p>Discover Pieces of ICD Gallery</p>
+  <button onclick="document.getElementById('popup').classList.remove('show')">Explore →</button>
 </div>
 
-<!-- Buttons -->
-<button id="startGuidedBtn">Start Guided Tour</button>
-<button id="startEquipmentBtn">Start Equipment Presentation</button>
+<div class="hint" id="hint">Click + drag to look &nbsp;·&nbsp; Scroll to walk</div>
 
-<!-- Equipment Popup Overlay -->
-<div id="popupOverlay" class="flex">
-  <div class="box" id="popupContent"></div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // ---------------- PAYMENT CHECK ----------------
-  
+// ── loader ──
+const lf = document.getElementById('lf');
+let lp=0;
+const li=setInterval(()=>{lp=Math.min(lp+Math.random()*20,92);lf.style.width=lp+'%';},130);
 
-  // ---------------- INFO POPUP ----------------
-  window.show = (txt) => {
-    const i = document.getElementById("info");
-    i.innerHTML = txt;
-    i.style.display = "block";
-    setTimeout(()=> i.style.display="none",7000);
-  }
+// ── scene ──
+const scene    = new THREE.Scene();
+scene.background = new THREE.Color(0x0d0b08);
+scene.fog        = new THREE.FogExp2(0x0d0b08, 0.022);
 
-  // ---------------- GUIDED TOUR ----------------
-  const camRig = document.querySelector('#cameraRig');
+const camera = new THREE.PerspectiveCamera(65,innerWidth/innerHeight,0.1,120);
+camera.position.set(0,1.65,9);
+camera.rotation.order='YXZ';
 
-  document.getElementById('startGuidedBtn').addEventListener('click', ()=> {
-    show("Starting Guided Tour...");
-    camRig.setAttribute('animation__step1','property: position; to: 0 1.7 25; dur:3000; easing: easeInOutQuad');
-    setTimeout(()=> show("Welcome to the Swahili History Gallery!"), 3500);
-    setTimeout(()=> camRig.setAttribute('animation__step2','property: position; to: -20 1.7 10; dur:3000; easing: easeInOutQuad'), 6000);
-    setTimeout(()=> show("Explore the Cultural Identity exhibits."), 9500);
-    setTimeout(()=> camRig.setAttribute('animation__step3','property: position; to: 0 1.7 -15; dur:3000; easing: easeInOutQuad'), 12000);
-    setTimeout(()=> show("Here we showcase Makonde Arts and East African crafts."), 15500);
-    setTimeout(()=> camRig.setAttribute('animation__step4','property: position; to: 20 1.7 -25; dur:3000; easing: easeInOutQuad'), 18000);
-    setTimeout(()=> show("National Archive Vault, preserving our heritage."), 21500);
-    setTimeout(()=> show("Guided tour complete!"), 25000);
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.9;
+document.body.appendChild(renderer.domElement);
+
+// ── materials ──
+const M=(c,r=0.8,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const mFloor =M(0xd0c4a8,0.3,0.05);
+const mCeil  =M(0xf0ece4,0.95);
+const mWall  =M(0xe4d8c8,0.88);
+const mWood  =M(0x8a6040,0.7);
+const mDWood =M(0x2e1e0e,0.65);
+const mMarble=M(0xeae0d0,0.22,0.04);
+const mChair =M(0xc8a478,0.7);
+const mGold  =M(0xb88c50,0.3,0.85);
+const mPlant =M(0x2e4a1a,0.9);
+const mPot   =M(0x9a8878,0.75);
+const mDesk  =M(0x6a4828,0.55);
+const mBlack =M(0x111111,0.4,0.5);
+
+// ── geo helpers ──
+function add(geo,mat,x,y,z,rx=0,ry=0){
+  const m=new THREE.Mesh(geo,mat);
+  m.position.set(x,y,z); m.rotation.x=rx; m.rotation.y=ry;
+  scene.add(m); return m;
+}
+const Box=(w,h,d)=>new THREE.BoxGeometry(w,h,d);
+const Cyl=(a,b,h,s=16)=>new THREE.CylinderGeometry(a,b,h,s);
+const Sph=(r,s=12)=>new THREE.SphereGeometry(r,s,s);
+const Tor=(r,t,s=12,S=36)=>new THREE.TorusGeometry(r,t,s,S);
+const Pla=(w,h)=>new THREE.PlaneGeometry(w,h);
+
+// ── lights (point only — no shadow maps) ──
+const amb=new THREE.AmbientLight(0xfff6e8,0.25); scene.add(amb);
+scene.add(new THREE.HemisphereLight(0xfff0d8,0x100c08,0.2));
+
+const lStrip=new THREE.MeshStandardMaterial({color:0xfffde8,emissive:0xfffde8,emissiveIntensity:1.0});
+
+function pl(x,y,z,i=2.0,c=0xfff0c8,d=12){
+  const l=new THREE.PointLight(c,i,d); l.position.set(x,y,z); scene.add(l);
+  add(new THREE.CircleGeometry(0.09,16),new THREE.MeshStandardMaterial({color:0xfffde0,emissive:0xfffde0,emissiveIntensity:1.5}),x,4.92,z,Math.PI/2);
+}
+
+pl(0,4.8,7,2.2); pl(-3,4.8,2,1.8); pl(3,4.8,2,1.8);
+pl(0,4.8,-4,2.0); pl(-3,4.8,-10,1.8); pl(3,4.8,-10,1.8);
+pl(0,4.8,-18,1.8); pl(-3,4.8,-26,1.8); pl(3,4.8,-26,1.8);
+pl(0,4.8,-34,1.8); pl(0,4.8,-44,2.0); pl(0,4.8,-54,2.4);
+pl(6.2,3.5,-2,2.5,0xffeedd,8); pl(6.2,3.5,-6,2.5,0xffeedd,8);
+pl(6.2,3.5,-10,2.5,0xffeedd,8); pl(6.2,3.5,-14,2.5,0xffeedd,8);
+pl(-6.2,3.5,-22,3.0,0xffeedd,10);
+pl(6.2,3.5,-38,3.5,0x88ffcc,10);
+pl(0,3.5,-60,4.0,0xfff0c0,14);
+
+// ── floor & ceiling ──
+add(Pla(14,82),mFloor,0,0,-29,-Math.PI/2);
+add(Pla(14,82),mCeil, 0,5,-29, Math.PI/2);
+for(let i=-6;i<=6;i+=2) add(Pla(0.025,82),M(0xb8ad9c,0.4),i,0.002,-29,-Math.PI/2);
+for(let z=10;z>=-68;z-=2) add(Pla(14,0.025),M(0xb8ad9c,0.4),0,0.002,z,-Math.PI/2);
+for(let z=8;z>=-62;z-=7) add(Box(0.12,0.07,2.8),lStrip,0,4.96,z);
+
+// ── walls ──
+add(Box(0.15,5,82),mWall,-7,2.5,-29);
+add(Box(0.15,5,82),mWall, 7,2.5,-29);
+add(Box(14,5,0.15),mWall, 0,2.5,-70);
+add(Box(14,5,0.15),mWall, 0,2.5, 12);
+for(let z=10;z>=-20;z-=1.5) add(Box(0.14,5,0.06),mWood,-6.92,2.5,z);
+for(let z=-18;z>=-48;z-=1.3) add(Box(0.14,5,0.06),mDWood,6.92,2.5,z);
+
+// ── reception desk ──
+add(Box(3.6,0.9,0.85),mDesk,  3.2,0.45,2);
+add(Box(3.6,0.06,0.85),mMarble,3.2,0.92,2);
+add(Box(3.6,0.84,0.05),mDWood, 3.2,0.42,1.6);
+add(Box(1.2,0.04,0.05),mGold,  3.2,0.65,1.57);
+
+// ── chairs ──
+function chair(x,z,ry=0){
+  const g=new THREE.Group();
+  const s=new THREE.Mesh(Box(0.9,0.13,0.88),mChair); s.position.set(0,0.4,0);
+  const b=new THREE.Mesh(Box(0.9,0.65,0.1),mChair);  b.position.set(0,0.76,-0.38); b.rotation.x=-0.15;
+  const aL=new THREE.Mesh(Box(0.1,0.22,0.82),mChair); aL.position.set(-0.43,0.52,0);
+  const aR=aL.clone(); aR.position.x=0.43;
+  [s,b,aL,aR].forEach(m=>g.add(m));
+  [[-.34,-.3],[.34,-.3],[-.34,.3],[.34,.3]].forEach(([lx,lz])=>{
+    const leg=new THREE.Mesh(Cyl(0.025,0.025,0.38,8),mGold);
+    leg.position.set(lx,0.19,lz); g.add(leg);
   });
+  g.position.set(x,0,z); g.rotation.y=ry; scene.add(g);
+}
+chair(-3.8,4,0.5); chair(-3.8,-13,-0.3); chair(3.8,-13,Math.PI+0.3);
+chair(-3.0,-42,-0.2); chair(3.0,-42,Math.PI+0.2);
 
-  // ---------------- EQUIPMENT PRESENTATION ----------------
-  const equipmentItems = [
-    { title: "Photogrammetry Camera (Mirrorless/FishEye Lens)", description: "High-resolution photography for capturing accurate 3D geometry.", cost: "$1,500 – $3,000" },
-    { title: "Drone with High-Res Camera", description: "Captures aerial views of roofs & exteriors for full 3D coverage.", cost: "$800 – $1,500" },
-    { title: "Tripod & Stabilizers", description: "Ensures sharp, stable images for photogrammetry processing.", cost: "$300 – $500" },
-    { title: "Lighting Panels", description: "Uniform lighting for interior photography.", cost: "$200 – $400" },
-    { title: "Computer Workstation (GPU + RAM)", description: "High-performance PC for processing photogrammetry & 3D models.", cost: "$2,000 – $4,000" },
-    { title: "Software: RealityCapture / Metashape / Blender", description: "Photogrammetry & 3D modeling for VR and web deployment.", cost: "$300 – $5,000" }
-  ];
+// ── tables ──
+function table(x,z){
+  add(Cyl(0.55,0.55,0.05,32),mMarble,x,0.72,z);
+  add(Cyl(0.04,0.06,0.66,12),mGold,  x,0.38,z);
+  add(Cyl(0.28,0.28,0.04,24),mDWood, x,0.02,z);
+}
+table(0,-13); table(0,-42);
 
-  let currentIndex = 0;
-  const popup = document.getElementById('popupOverlay');
-  const popupContent = document.getElementById('popupContent');
-
-  function renderEquipment(index){
-    const item = equipmentItems[index];
-    popupContent.innerHTML = `
-      <h2 class="text-2xl font-bold mb-4 text-center">${item.title}</h2>
-      <p class="text-gray-700 mb-4">${item.description}</p>
-      <p class="text-green-600 font-semibold mb-6">Estimated Cost: ${item.cost}</p>
-      <div class="flex justify-between">
-        <button id="prevBtn" class="bg-gray-400 text-white font-bold py-2 px-6 rounded hover:bg-gray-500">Previous</button>
-        <button id="nextBtn" class="bg-green-500 text-white font-bold py-2 px-6 rounded hover:bg-green-600">Next</button>
-        <button id="closeBtn" class="bg-red-500 text-white font-bold py-2 px-6 rounded hover:bg-red-600">Close</button>
-      </div>
-    `;
-
-    document.getElementById('prevBtn').disabled = (index===0);
-    if(index===0) document.getElementById('prevBtn').classList.add('opacity-50');
-    else document.getElementById('prevBtn').classList.remove('opacity-50');
-
-    document.getElementById('prevBtn').addEventListener('click', ()=>{ currentIndex--; renderEquipment(currentIndex); });
-    document.getElementById('nextBtn').addEventListener('click', ()=>{ if(currentIndex < equipmentItems.length-1){ currentIndex++; renderEquipment(currentIndex); } });
-    document.getElementById('closeBtn').addEventListener('click', ()=>{ popup.style.display = 'none'; });
+// ── plants ──
+function plant(x,z){
+  add(Cyl(0.26,0.20,0.46,16),mPot,  x,0.23,z);
+  add(Cyl(0.04,0.06,1.4,8), mPlant,x,1.14,z);
+  const lm=new THREE.MeshStandardMaterial({color:0x3a5a22,roughness:0.85,side:THREE.DoubleSide});
+  for(let i=0;i<9;i++){
+    const ang=(i/9)*Math.PI*2;
+    const leaf=new THREE.Mesh(Pla(0.17,1.1),lm);
+    leaf.position.set(x+Math.sin(ang)*0.18,1.85,z+Math.cos(ang)*0.18);
+    leaf.rotation.set(-0.3+Math.random()*0.2,ang,-0.3+Math.random()*0.25);
+    scene.add(leaf);
   }
+}
+plant(-5.8,-8); plant(5.8,-24); plant(-5.8,-36);
 
-  document.getElementById('startEquipmentBtn').addEventListener('click', ()=>{
-    currentIndex = 0;
-    popup.style.display = 'flex';
-    renderEquipment(currentIndex);
-  });
+// ── staircase ──
+for(let s=0;s<7;s++){
+  add(Box(2.8,0.18,0.9),mMarble,-4.6,s*0.18+0.09,-4.5-s*0.9);
+  add(Box(2.8,0.18,0.04),mMarble,-4.6,s*0.18,-4.08-s*0.9);
+}
+add(Box(0.04,1.2,6.6),mGold,-3.3,1.36,-9.1);
+add(Box(0.04,0.04,6.6),mGold,-3.3,1.95,-9.1);
 
+// ── circular display cases ──
+const dcCols=[0x4488cc,0xcc6644,0x88cc66,0xddcc44];
+[-3,-6.5,-10,-13.5].forEach((z,i)=>{
+  add(Box(1.05,1.05,0.1),mWall,6.85,2.0,z);
+  const ring=new THREE.Mesh(Tor(0.43,0.038,12,48),mGold);
+  ring.position.set(6.84,2.0,z+0.09); ring.rotation.y=Math.PI/2; scene.add(ring);
+  const artM=new THREE.MeshStandardMaterial({color:dcCols[i],emissive:dcCols[i],emissiveIntensity:0.5});
+  const disc=new THREE.Mesh(new THREE.CircleGeometry(0.38,32),artM);
+  disc.position.set(6.81,2.0,z+0.10); disc.rotation.y=Math.PI/2; scene.add(disc);
 });
+
+// ── abstract art ──
+{
+  add(Box(3.0,2.1,0.05),mDWood,-6.82,2.2,-22);
+  add(Box(2.76,1.88,0.04),M(0xf5f0e8,0.9),-6.82,2.2,-21.97);
+  const strokes=[[0,0.3,2.4,0.35,0xcc2222],[-.6,-.1,0.9,0.6,0x2244cc],[0.5,0,0.7,0.9,0xeeeedd],[-.2,-.4,1.4,0.3,0xcc2222],[0.3,0.5,0.5,0.4,0x111111]];
+  strokes.forEach(([sx,sy,sw,sh,col])=>{
+    add(Box(sw,sh,0.025),new THREE.MeshStandardMaterial({color:col,roughness:0.7,emissive:col,emissiveIntensity:0.04}),-6.82+sx,2.2+sy,-21.94);
+  });
+}
+
+// ── room divider ──
+for(let i=0;i<9;i++) add(Box(0.055,5,0.28),mWood,-1.8+i*0.38,2.5,-31);
+add(Box(3.5,0.1,0.3),mDWood,0,4.98,-31);
+
+// ── digital portrait ──
+{
+  add(Box(2.1,2.65,0.06),mBlack,6.82,2.2,-39);
+  add(Box(1.88,2.45,0.04),new THREE.MeshStandardMaterial({color:0x080818,roughness:0.5,emissive:0x080818,emissiveIntensity:0.6}),6.82,2.2,-38.97);
+  const neon=new THREE.MeshStandardMaterial({color:0x00ff88,emissive:0x00ff88,emissiveIntensity:2.5});
+  for(let n=0;n<7;n++) add(Box(1.78,0.02,0.03),neon,6.82,1.2+n*0.34,-38.93);
+  const face=new THREE.Mesh(Sph(0.46,14),new THREE.MeshStandardMaterial({color:0xd4a880,roughness:0.6,emissive:0xd4a880,emissiveIntensity:0.2}));
+  face.scale.set(1,1.4,0.32); face.position.set(6.82,2.5,-38.92); face.rotation.y=Math.PI/2; scene.add(face);
+}
+
+// ── pedestals ──
+function pedestal(x,z,col=0xe0d4bc){
+  add(Box(0.52,1.12,0.52),mMarble,x,0.56,z);
+  const blob=new THREE.Mesh(Sph(0.22,12),new THREE.MeshStandardMaterial({color:col,roughness:0.3,metalness:0.1,emissive:col,emissiveIntensity:0.03}));
+  blob.scale.set(1,1.55,0.82); blob.position.set(x,1.33,z); scene.add(blob);
+}
+pedestal(-2,-47); pedestal(2,-54); pedestal(0,-61);
+
+// ── light installation (back wall) ──
+add(Box(6.2,3.2,0.07),mDWood,0,2.6,-69.88);
+const gColors=[0xfff0c8,0xffcc70,0xffaa40];
+for(let gx=-2;gx<=2;gx++){
+  for(let gy=0;gy<3;gy++){
+    const em=0.5+Math.random()*0.6, gc=gColors[Math.floor(Math.random()*3)];
+    add(Box(0.72,0.72,0.05),new THREE.MeshStandardMaterial({color:gc,emissive:gc,emissiveIntensity:em}),gx*1.02,1.55+gy*0.9,-69.84);
+  }
+}
+const instL=new THREE.PointLight(0xfff0c0,5,18); instL.position.set(0,2.5,-66); scene.add(instL);
+
+// ════════════════════════════════════════════
+//  FLOATING QUOTES  — canvas textures → sprites
+// ════════════════════════════════════════════
+
+const quotes = [
+  {
+    z: -5,
+    headline: "FEEL",
+    sub: "A space that moves you needs no explanation."
+  },
+  {
+    z: -16,
+    headline: "BREATHE",
+    sub: "The right room expands you from the inside out."
+  },
+  {
+    z: -27,
+    headline: "BELONG",
+    sub: "Home is where every corner knows your name."
+  },
+  {
+    z: -38,
+    headline: "SILENCE",
+    sub: "True luxury is a room that lets you hear yourself think."
+  },
+  {
+    z: -50,
+    headline: "BECOME",
+    sub: "Your space shapes you as much as you shape it."
+  },
+  {
+    z: -62,
+    headline: "ETERNAL",
+    sub: "Design that touches the heart never goes out of style."
+  }
+];
+
+function makeQuoteTexture(headline, sub) {
+  const canvas = document.createElement('canvas');
+  canvas.width  = 1024;
+  canvas.height = 320;
+  const ctx = canvas.getContext('2d');
+
+  // transparent background
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // headline
+  ctx.font = 'bold 120px Georgia, serif';
+  ctx.letterSpacing = '0.18em';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(240, 232, 218, 1.0)';
+  ctx.fillText(headline, 512, 130);
+
+  // thin gold line
+  ctx.strokeStyle = 'rgba(200, 149, 106, 0.75)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(362, 155);
+  ctx.lineTo(662, 155);
+  ctx.stroke();
+
+  // sub line
+  ctx.font = '300 38px "Helvetica Neue", Helvetica, sans-serif';
+  ctx.letterSpacing = '0.12em';
+  ctx.fillStyle = 'rgba(210, 198, 178, 0.82)';
+  ctx.fillText(sub, 512, 210);
+
+  return canvas;
+}
+
+// Build sprites — stored with their Z so we can fade by distance
+const quoteSprites = quotes.map(q => {
+  const canvas  = makeQuoteTexture(q.headline, q.sub);
+  const texture  = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+  const sprite = new THREE.Sprite(material);
+  // scale: canvas is 1024×320, display ~4 world units wide
+  sprite.scale.set(5.5, 5.5 * (320/1024), 1);
+  // float in the centre of the corridor, slightly above eye level
+  sprite.position.set(0, 2.4, q.z);
+  scene.add(sprite);
+  return { sprite, material, z: q.z };
+});
+
+// Gentle bob animation offset per quote
+const bobs = quotes.map(()=> Math.random()*Math.PI*2);
+
+// ── mouse look ──
+let drag=false,lx=0,ly=0,yaw=0,pitch=0;
+document.addEventListener('mousedown',e=>{drag=true;lx=e.clientX;ly=e.clientY;document.body.classList.add('dragging');});
+document.addEventListener('mouseup',  ()=>{drag=false;document.body.classList.remove('dragging');});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  yaw  -=(e.clientX-lx)*0.0024; pitch-=(e.clientY-ly)*0.0018;
+  lx=e.clientX;ly=e.clientY;
+  yaw  =Math.max(-Math.PI*.55,Math.min(Math.PI*.55,yaw));
+  pitch=Math.max(-0.4,Math.min(0.4,pitch));
+});
+document.addEventListener('touchstart',e=>{const t=e.touches[0];drag=true;lx=t.clientX;ly=t.clientY;});
+document.addEventListener('touchend',  ()=>{drag=false;});
+document.addEventListener('touchmove', e=>{
+  const t=e.touches[0];
+  yaw  -=(t.clientX-lx)*0.003; pitch-=(t.clientY-ly)*0.0025;
+  lx=t.clientX;ly=t.clientY;
+  yaw=Math.max(-Math.PI*.55,Math.min(Math.PI*.55,yaw));
+  pitch=Math.max(-0.4,Math.min(0.4,pitch));
+});
+
+let targetZ=9;
+document.addEventListener('wheel',e=>{
+  targetZ=Math.max(-66,Math.min(10,targetZ-e.deltaY*0.04));
+  document.getElementById('hint').classList.add('gone');
+},{passive:true});
+
+let popupShown=false;
+let clock=0;
+
+// ── render loop ──
+function animate(){
+  requestAnimationFrame(animate);
+  clock += 0.016;
+
+  camera.position.z += (targetZ - camera.position.z)*0.08;
+  camera.rotation.y += (yaw     - camera.rotation.y)*0.10;
+  camera.rotation.x += (pitch   - camera.rotation.x)*0.10;
+
+  const camZ = camera.position.z;
+
+  // ── quote opacity based on camera distance ──
+  quoteSprites.forEach(({sprite, material, z}, i) => {
+    const dist = Math.abs(camZ - z);          // how far camera is from quote
+    // fade IN  between 14 and 7 units away
+    // fade OUT between 7 and 2 units away (too close)
+    let opacity = 0;
+    if (dist > 14) {
+      opacity = 0;
+    } else if (dist > 7) {
+      // approaching — fade in
+      opacity = 1 - (dist - 7) / 7;
+    } else if (dist > 2.5) {
+      // fully visible sweet spot
+      opacity = 1;
+    } else {
+      // too close — fade out
+      opacity = Math.max(0, (dist - 2.5) / 2.5);
+    }
+    material.opacity = opacity;
+
+    // gentle vertical bob — only when visible
+    if (opacity > 0) {
+      sprite.position.y = 2.4 + Math.sin(clock * 0.55 + bobs[i]) * 0.06;
+    }
+  });
+
+  // popup near back
+  if(camZ < -58 && !popupShown){ popupShown=true;  document.getElementById('popup').classList.add('show'); }
+  if(camZ > -50 && popupShown){  popupShown=false; document.getElementById('popup').classList.remove('show'); }
+
+  renderer.render(scene,camera);
+}
+
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+// ── boot ──
+setTimeout(()=>{
+  clearInterval(li); lf.style.width='100%';
+  setTimeout(()=>{
+    const loader=document.getElementById('loader');
+    loader.style.transition='opacity 0.8s';
+    loader.style.opacity='0';
+    setTimeout(()=>loader.remove(),900);
+    animate();
+  },400);
+},1500);
 </script>
-
-<!-- A-Frame Scene -->
-<a-scene renderer="physicallyCorrectLights:true" shadow="type:pcfsoft">
-  <a-sky color="#0a1c2a"></a-sky>
-  <a-light type="directional" intensity="1.2" position="5 10 5" castShadow="true"></a-light>
-  <a-light type="ambient" intensity="0.4"></a-light>
-  <a-plane rotation="-90 0 0" width="100" height="100" src="https://cdn.aframe.io/a-painter/images/floor.jpg" repeat="20 20"></a-plane>
-
-  <!-- Exhibits -->
-  <a-entity position="0 0 40">
-    <a-box width="30" height="6" depth="2" color="#5d4037" material="roughness:0.8"></a-box>
-    <a-text value="SCL National Swahili Digital Heritage" position="0 4 0" align="center" width="12" color="#fff"></a-text>
-    <a-box position="0 1 1" width="4" height="3" depth="0.5" color="#3e2723"></a-box>
-  </a-entity>
-
-  <a-entity position="-20 0 10">
-    <a-box width="14" height="5" depth="22" color="#8d6e63" material="src: https://cdn.aframe.io/a-painter/images/brick.jpg; repeat: 2 2;" 
-           onclick="show('Swahili trade, Indian Ocean networks, coastal civilizations.')"></a-box>
-    <a-text value="Swahili History" position="0 4 0" align="center" width="8" color="#fff"></a-text>
-  </a-entity>
-
-  <a-entity position="20 0 10">
-    <a-box width="14" height="5" depth="22" color="#a1887f" material="src: https://cdn.aframe.io/a-painter/images/wood.jpg; repeat:2 2"
-           onclick="show('Language, clothing, music, coastal traditions.')"></a-box>
-    <a-text value="Cultural Identity" position="0 4 0" align="center" width="8" color="#fff"></a-text>
-  </a-entity>
-
-  <a-entity position="0 0 -15">
-    <a-box width="6" height="3" depth="2" color="gold"
-           onclick="show('Makonde Mask: 19th Century Cultural Artifact')"
-           animation__hover="property: rotation; startEvents: mouseenter; endEvents: mouseleave; to:0 360 0; dur:1500"></a-box>
-    <a-text value="Makonde Arts" position="0 2 1.5" align="center" width="6" color="#000"></a-text>
-  </a-entity>
-
-  <a-entity position="-20 0 -25">
-    <a-box width="14" height="5" depth="14" color="#37474f"
-           material="src: https://cdn.aframe.io/a-painter/images/floor.jpg; repeat:2 2"
-           onclick="show('AI, data, future skills, digital heritage.')"></a-box>
-    <a-text value="Digital Innovation Lab" position="0 4 0" align="center" width="8" color="#fff"></a-text>
-  </a-entity>
-
-  <a-entity position="20 0 -25">
-    <a-box width="14" height="5" depth="14" color="#263238"
-           onclick="show('National archive, preservation, memory.')"></a-box>
-    <a-text value="National Archive Vault" position="0 4 0" align="center" width="8" color="#fff"></a-text>
-  </a-entity>
-
-  <a-plane src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Tanzania.svg"
-           position="-28 5 20" width="6" height="3"></a-plane>
-
-  <!-- Sound -->
-  <a-entity sound="src:url(https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav); autoplay:true; loop:true"></a-entity>
-
-  <!-- Camera Rig -->
-  <a-entity id="cameraRig" position="0 1.7 45">
-    <a-camera wasd-controls look-controls>
-      <a-cursor></a-cursor>
-    </a-camera>
-  </a-entity>
-</a-scene>
-
 </body>
 </html>
