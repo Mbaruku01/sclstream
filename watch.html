@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUSEUM | Cinema Experience</title>
+    <title>Cinema Experience</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="pic/logo.png">
     <link rel="icon" type="image/png" sizes="16x16" href="pic/logo.png">
@@ -13,70 +13,76 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
-        body { background-color: #020617; color: white; font-family: 'Inter', sans-serif; margin: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap');
+        
+        /* Swapped base canvas structures to deep pitch blacks instead of slate blues */
+        body { background-color: #050505; color: #f5f5f5; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
         .video-container { aspect-ratio: 16 / 9; width: 100%; transition: aspect-ratio 0.5s ease; }
         .video-container.is-short { aspect-ratio: 9 / 16; max-width: 400px; margin: 0 auto; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .text-mint { color: #2AF598; }
-        .btn-interact { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
-        .btn-interact:hover { background: rgba(255, 255, 255, 0.1); border-color: #2AF598; transform: translateY(-2px); }
+        
+        /* Rebuilt alpha channels to map perfectly against true dark neutral layers */
+        .glass { background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.03); }
+        
+        /* Interactive actions tuned down into luxury gold border mappings on active states */
+        .btn-interact { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-interact:hover { background: rgba(255, 255, 255, 0.05); border-color: #A37E2C; transform: translateY(-2px); }
     </style>
 </head>
-<body class="min-h-screen bg-[#020617]">
+<body class="min-h-screen bg-[#050505]">
 
-    <header class="p-4 md:px-10 flex justify-between items-center border-b border-white/5 bg-[#020617]/80 sticky top-0 z-50 backdrop-blur-md">
-        <a href="index.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
-            <i data-lucide="arrow-left" class="w-5 h-5 group-hover:-translate-x-1 transition-transform"></i>
-            <span class="font-bold tracking-widest text-[10px] uppercase">Exit Vault</span>
+    <header class="p-4 md:px-10 flex justify-between items-center border-b border-neutral-900/60 bg-[#050505]/90 sticky top-0 z-50 backdrop-blur-md">
+        <a href="index.html" class="flex items-center gap-2 text-neutral-500 hover:text-white transition-all group">
+            <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+            <span class="font-black tracking-[0.2em] text-[9px] uppercase">Exit Vault</span>
         </a>
         <div class="flex items-center gap-2">
-            <span class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]"> Museum Cinema</span>
+            <span class="text-[9px] font-black text-neutral-500 uppercase tracking-[0.3em]">Digital Cultural Streaming Platform</span>
         </div>
     </header>
 
     <main class="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-8 p-4 md:p-8">
         
         <div class="flex-1">
-            <div id="playerContainer" class="video-container glass rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-white/10">
+            <div id="playerContainer" class="video-container glass rounded-[2rem] overflow-hidden shadow-2xl border border-neutral-900">
                 <iframe id="player" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-            <div class="mt-6 space-y-6">
-                <h1 id="videoTitle" class="text-2xl md:text-4xl font-black">Archive Title</h1>
+            <div class="mt-8 space-y-6">
+                <h1 id="videoTitle" class="text-2xl md:text-4xl font-black tracking-tight text-white uppercase">Archive Title</h1>
                 
-                <div class="flex flex-wrap items-center justify-between gap-6 py-5 border-y border-white/5">
+                <div class="flex flex-wrap items-center justify-between gap-6 py-5 border-y border-neutral-900">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#08AEEA] to-[#2AF598] p-0.5 shadow-lg">
-                            <img src="pic/logo.png" class="w-full h-full rounded-full object-cover bg-slate-900">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#AA7C11] to-[#D4AF37] p-0.5 shadow-xl">
+                            <img src="pic/logo.png" class="w-full h-full rounded-full object-cover bg-neutral-950">
                         </div>
-                        <div class="space-y-1">
-                            <p class="font-black text-base tracking-tight uppercase">SHIMULIMULI</p>
+                        <div class="space-y-0.5">
+                            <p class="font-black text-base tracking-wider text-white uppercase">SCL</p>
+                            <p class="text-[9px] font-bold text-amber-500/80 uppercase tracking-widest">Heritage Foundation</p>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <button onclick="goToYouTube()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold">
-                            <i data-lucide="thumbs-up" class="w-4 h-4 text-mint"></i> Like
+                        <button onclick="goToYouTube()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider text-neutral-200">
+                            <i data-lucide="thumbs-up" class="w-4 h-4 text-amber-400"></i> Like
                         </button>
-                        <button onclick="copyLink()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold">
-                            <i data-lucide="share-2" class="w-4 h-4"></i> Share
+                        <button onclick="copyLink()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider text-neutral-200">
+                            <i data-lucide="share-2" class="w-4 h-4 text-neutral-400"></i> Share
                         </button>
                     </div>
                 </div>
 
-                <div class="glass p-6 rounded-3xl">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span id="videoTag" class="px-3 py-1 bg-white/5 text-mint text-[9px] font-black rounded-md border border-white/10 uppercase tracking-widest">TAG</span>
-                        <span class="text-slate-500 text-[9px] font-bold uppercase tracking-widest">Verified SHIMULIMULI Archive</span>
+                <div class="glass p-6 rounded-3xl border border-neutral-900">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span id="videoTag" class="px-3 py-1 bg-amber-500/10 text-amber-400 text-[9px] font-black rounded-md border border-amber-500/20 uppercase tracking-[0.15em]">TAG</span>
+                        <span class="text-neutral-500 text-[9px] font-black uppercase tracking-widest">Verified Historical Log</span>
                     </div>
-                    <p id="videoDesc" class="text-slate-400 leading-relaxed font-light text-base md:text-lg">Loading metadata...</p>
+                    <p id="videoDesc" class="text-neutral-400 leading-relaxed font-normal text-base">Loading catalog metadata records...</p>
                 </div>
             </div>
         </div>
 
         <div class="w-full lg:w-[400px] space-y-6">
-            <h3 class="text-xs font-black uppercase tracking-widest text-slate-500">More from the Archive</h3>
+            <h3 class="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">More from the Archive</h3>
             <div id="suggestionsList" class="space-y-5"></div>
         </div>
     </main>
