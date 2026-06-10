@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     
-    <title>Tanzanian Cultural Heritage Archive</title>
+    <title>Digital Heritage Stream</title>
     <meta name="title" content="Tanzanian Cultural Heritage Archive">
     <meta name="description" content="Explore Tanzania's rich cultural heritage. A digital archive of traditional rituals, history, and artifacts curated by Hamis Yassin Mbaruku.">
     <meta name="keywords" content="SCL Museum, Hamis Yassin Mbaruku, Tanzania Heritage, African Culture, Digital Museum, Swahili History">
@@ -15,9 +15,8 @@
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -25,16 +24,18 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
         :root {
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --cerulean: #007BA7;
-            --mint: #2AF598;
-            --teal: #08AEEA;
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            /* Premium Heritage Gold Palette */
+            --gold-light: #F3E5AB;
+            --gold: #D4AF37;
+            --gold-dark: #AA7C11;
+            --charcoal: #1E1E1E;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #020617; 
+            background-color: #000000; /* Pure black to perfectly match logo background */
             color: #ffffff;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
@@ -47,23 +48,23 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #020617; /* Matches body background exactly */
+            background-color: #000000; /* Matches pure black logo space */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* Higher than header and navigation layers */
+            z-index: 9999;
             transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
             padding: 24px;
         }
 
         .splash-title {
-            background: linear-gradient(to right, #08AEEA, #2AF598);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
-            letter-spacing: -0.05em;
+            letter-spacing: 0.05em;
             text-align: center;
             text-transform: uppercase;
             opacity: 0;
@@ -87,7 +88,7 @@
         /* --- END OF SPLASH SCREEN STYLES --- */
 
         .glass-nav {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(10, 10, 10, 0.75);
             backdrop-filter: blur(25px) saturate(200%);
             -webkit-backdrop-filter: blur(25px) saturate(200%);
             border-top: 1px solid var(--glass-border);
@@ -101,209 +102,231 @@
         }
 
         .glass-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--mint);
-            box-shadow: 0 20px 40px rgba(0, 123, 167, 0.2);
+            transform: translateY(-6px) scale(1.01);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         .active-tab { 
-            color: var(--mint) !important; 
-            filter: drop-shadow(0 0 8px rgba(42, 245, 152, 0.5));
+            color: var(--gold) !important; 
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
         }
         .active-tab i { transform: translateY(-4px); transition: all 0.3s ease; }
 
         .hero-gradient {
-            background: linear-gradient(0deg, #020617 0%, rgba(2, 6, 23, 0) 60%, rgba(0, 123, 167, 0.2) 100%);
+            background: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 60%, rgba(212, 175, 55, 0.08) 100%);
         }
 
         .btn-premium {
-            background: linear-gradient(135deg, var(--teal) 0%, var(--mint) 100%);
-            color: #020617;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #000000;
             font-weight: 700;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(42, 245, 152, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
             text-decoration: none;
         }
 
         .btn-premium:hover { 
-            opacity: 0.9; 
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(42, 245, 152, 0.5);
+            opacity: 0.95; 
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
         }
 
         .page-view { display: none; animation: fadeIn 0.5s ease-out; }
         .page-view.active { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .text-gradient {
-            background: linear-gradient(to right, #08AEEA, #2AF598);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-    .pnlm-container {
-        background: #020617 !important; 
-    }
-    .pnlm-load-box {
-        background-color: rgba(0, 0, 0, 0.7) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 1rem !important;
-    }
-    .pnlm-lbox-text {
-        color: #fff !important;
-        font-family: inherit;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-size: 10px;
-    }
+        .pnlm-container {
+            background: #000000 !important; 
+        }
+        .pnlm-load-box {
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 1rem !important;
+        }
+        .pnlm-lbox-text {
+            color: var(--gold) !important;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
-
 <div id="splash-screen">
-    <h1 class="splash-title text-3xl md:text-5xl lg:text-6xl font-black tracking-tight max-w-4xl">
-        Digital Cultural Streaming Platform
+    <h1 class="splash-title text-3xl md:text-5xl lg:text-6xl font-black tracking-widest max-w-4xl text-gradient">
+        Heritage Stream
     </h1>
+    <p class="text-[10px] md:text-xs tracking-[0.3em] uppercase text-amber-100/40 mt-3 font-semibold animate-pulse">
+        Streaming Living Heritage
+    </p>
 </div>
 
 <header class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center transition-all duration-300" id="mainHeader">
     <div class="flex items-center gap-3">
-        <div class="w-11 h-11 bg-gradient-to-br from-[#08AEEA] to-[#2AF598] rounded-xl flex items-center justify-center shadow-lg ring-1 ring-white/20 overflow-hidden">
-            <img src="pic/logo.png" alt="SCL Logo" class="w-full h-full object-cover">
+        <div class="w-11 h-11 bg-neutral-900 rounded-xl flex items-center justify-center shadow-2xl ring-1 ring-amber-500/20 overflow-hidden">
+            <img src="pic/logo.png" alt="Heritage Stream Logo" class="w-full h-full object-cover">
         </div>
-        <h1 class="text-2xl font-bold tracking-tighter uppercase">
-            Digital <span class="text-gradient">Museum</span>
+        <h1 class="text-xl md:text-2xl font-bold tracking-tight uppercase text-white">
+            Heritage <span class="text-gradient">Stream</span>
         </h1>
     </div>
 
     <div class="flex gap-3 items-center">
-        <a href="support.html" class="flex items-center gap-2 bg-gradient-to-r from-[#08AEEA] to-[#2AF598] text-slate-950 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-wider hover:scale-105 transition-transform shadow-lg shadow-cyan-500/20">
-            <i data-lucide="heart" class="w-3.5 h-3.5 fill-slate-950"></i>
+        <a href="support.html" class="flex items-center gap-2 bg-gradient-to-r from-[#F3E5AB] via-[#D4AF37] to-[#AA7C11] text-black px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-amber-500/10">
+            <i data-lucide="heart" class="w-3.5 h-3.5 fill-black"></i>
             <span>Support</span>
         </a>
 
-        <button onclick="switchTab('explore')" class="p-2.5 bg-white/5 hover:bg-white/10 rounded-full transition-colors border border-white/10">
+        <button onclick="switchTab('explore')" class="p-2.5 bg-neutral-900/40 hover:bg-neutral-800/60 text-amber-100/80 hover:text-white rounded-full transition-colors border border-white/5 shadow-inner">
             <i data-lucide="search" class="w-5 h-5"></i>
         </button>
     </div>
 </header>
-
 <main class="pb-32">
     <section id="home" class="page-view active">
-        <div class="relative h-[85vh] md:h-[90vh] w-full overflow-hidden">
-            <img src="pic/flomi2.JPG" class="w-full h-full object-cover scale-105" alt="The Spirit of the Makonde">
-            <div class="absolute inset-0 hero-gradient flex flex-col justify-end px-6 pb-20 md:px-16 md:pb-32">
-                <div class="flex items-center gap-2 mb-3 md:mb-4">
-                    <span class="w-6 md:w-8 h-[2px] bg-mint"></span>
-                    <span class="text-mint font-bold tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs uppercase">Featured Heritage Archive</span>
-                </div>
-                <h2 class="text-4xl md:text-8xl font-black mb-4 md:mb-6 leading-[1.1] md:leading-none">
-                    The Cultural <br class="hidden md:block">
-                    <span class="text-gradient">Echoes 2025</span>
-                </h2>
-                <p class="max-w-2xl text-slate-300 mb-6 md:mb-8 text-base md:text-xl leading-relaxed font-light">
-                    A Collaborative Project with <span class="text-white font-medium">The Open University of Tanzania </span> Celebrating heritage, identity, and tradition.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
-                    <button onclick="openVideo('THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania', 'PARTNERSHIP PROJECT')" class="btn-premium px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 text-base md:text-lg">
-    <i data-lucide="play" fill="currentColor" class="w-5 h-5"></i> Watch Experience
-</button>
-                    <a href="#archives" class="bg-white/5 backdrop-blur-xl px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 border border-white/10 hover:bg-white/10 transition-all text-base decoration-none">
-                        <i data-lucide="info" class="text-mint w-5 h-5"></i> Explore Vault
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div id="archives" class="px-6 md:px-16 -mt-12 md:-mt-16 relative z-10 space-y-12 md:space-y-16">
+    <div class="relative h-[85vh] md:h-[90vh] w-full overflow-hidden">
+        <img src="pic/flomi2.JPG" class="w-full h-full object-cover scale-105" alt="The Spirit of the Makonde">
+        <div class="absolute inset-0 hero-gradient flex flex-col justify-end px-6 pb-20 md:px-16 md:pb-32 bg-gradient-to-t from-black via-black/40 to-transparent">
             
-           <section id="shorts-section">
-    <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
-        <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-orange-500 to-red-500 rounded-full"></span>Cultural Shorts
-    </h3>
-    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4" id="shortsRow">
+            <div class="flex items-center gap-2 mb-3 md:mb-4">
+                <span class="w-6 md:w-8 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></span>
+                <span class="text-amber-200/90 font-bold tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs uppercase">Featured Heritage Archive</span>
+            </div>
+            
+            <h2 class="text-4xl md:text-8xl font-black mb-4 md:mb-6 leading-[1.1] md:leading-none text-white">
+                The Cultural <br class="hidden md:block">
+                <span class="text-gradient">Echoes 2025</span>
+            </h2>
+            
+            <p class="max-w-2xl text-neutral-300 mb-6 md:mb-8 text-base md:text-xl leading-relaxed font-light">
+                A Collaborative Project with <span class="text-white font-medium">The Open University of Tanzania</span> Celebrating heritage, identity, and tradition.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                <button onclick="openVideo('THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania', 'PARTNERSHIP PROJECT')" class="btn-premium px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 text-base md:text-lg">
+                    <i data-lucide="play" fill="currentColor" class="w-5 h-5"></i> Watch Experience
+                </button>
+                
+                <a href="#archives" class="bg-neutral-900/60 backdrop-blur-xl px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 border border-white/5 hover:border-amber-500/30 hover:bg-neutral-900/90 transition-all text-base text-amber-100/90 decoration-none">
+                    <i data-lucide="info" class="text-[#D4AF37] w-5 h-5"></i> Explore Vault
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="archives" class="px-6 md:px-16 -mt-12 md:-mt-16 relative z-10 space-y-12 md:space-y-16 bg-gradient-to-b from-transparent via-black to-black">
         
-        <div onclick="openVideo('KWIZU MOUNTAINS | SAME KILIMANJARO', 'Kilimanjaro')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10">
-            <img src="pic/kwizu.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Kwizu Mountains">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-3 left-3 right-3">
-                <p class="text-[10px] font-bold leading-tight uppercase tracking-tighter">Kwizu Mountains</p>
-            </div>
-        </div>
+        <section id="shorts-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Cultural Shorts
+            </h3>
+            <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4" id="shortsRow">
+                
+                <div onclick="openVideo('KWIZU MOUNTAINS | SAME KILIMANJARO', 'Kilimanjaro')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/kwizu.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Kwizu Mountains">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Kwizu Mountains</p>
+                    </div>
+                </div>
 
-        <div onclick="openVideo('Preserving Tanzanian History | Makumira Cultural Archives Tour', 'Archives')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10">
-            <img src="pic/shorts2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Makumira Archives">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-3 left-3 right-3">
-                <p class="text-[10px] font-bold leading-tight uppercase tracking-tighter">Makumira Archives</p>
-            </div>
-        </div>
+                <div onclick="openVideo('Preserving Tanzanian History | Makumira Cultural Archives Tour', 'Archives')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/shorts2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Makumira Archives">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Makumira Archives</p>
+                    </div>
+                </div>
 
-        <div onclick="openVideo('The Duluti Lake: Where Nature Meets Culture', 'Nature')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10">
-            <img src="pic/shorts3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Duluti Lake">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-3 left-3 right-3">
-                <p class="text-[10px] font-bold leading-tight uppercase tracking-tighter">Nature Meets Culture</p>
-            </div>
-        </div>
+                <div onclick="openVideo('The Duluti Lake: Where Nature Meets Culture', 'Nature')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/shorts3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Duluti Lake">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Nature Meets Culture</p>
+                    </div>
+                </div>
 
-        <div onclick="openVideo('Welcome to Lake Duluti with ZAKIA MPODI', 'Culture')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10">
-            <img src="pic/short4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Zakia Mpodi">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-3 left-3 right-3">
-                <p class="text-[10px] font-bold leading-tight uppercase tracking-tighter">Zakia Mpodi @ Duluti</p>
-            </div>
-        </div>
+                <div onclick="openVideo('Welcome to Lake Duluti with ZAKIA MPODI', 'Culture')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/short4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Zakia Mpodi">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Zakia Mpodi @ Duluti</p>
+                    </div>
+                </div>
 
+            </div>
+        </section>
+
+        <section id="recent-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Most Popular Videos
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="recentRow"></div>
+        </section>
+
+        <section id="tribes-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Land & Lineage
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="tribesRow"></div>
+        </section>
+
+        <section id="herbal-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#111] rounded-full"></span>Ancestral Knowledge
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="herbalRow"></div>
+        </section>
     </div>
 </section>
 
-            <section id="recent-section">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
-                    <span class="w-1.5 h-6 md:w-2 md:h-8 bg-mint rounded-full"></span>Most Popular Videos
-                </h3>
-                <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="recentRow"></div>
-            </section>
-
-            <section id="tribes-section">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
-                    <span class="w-1.5 h-6 md:w-2 md:h-8 bg-cerulean rounded-full"></span>Land & Lineage
-                </h3>
-                <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="tribesRow"></div>
-            </section>
-
-            <section id="herbal-section">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3">
-                    <span class="w-1.5 h-6 md:w-2 md:h-8 bg-white/20 rounded-full"></span>Ancestral Knowledge
-                </h3>
-                <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="herbalRow"></div>
-            </section>
+<section id="explore" class="page-view px-6 pt-32 max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-8 uppercase text-white">
+        Digital <span class="text-gradient">Archives</span>
+    </h2>
+    
+    <div class="flex flex-col lg:flex-row gap-6 mb-12">
+        <div class="flex-1 relative">
+            <i data-lucide="search" class="absolute left-5 top-4 text-neutral-500 w-5 h-5"></i>
+            <input type="text" placeholder="Search by Tribe, Region or Ritual..." class="w-full bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-500 rounded-2xl py-4 pl-14 pr-6 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all shadow-inner">
         </div>
-    </section>
-
-    <section id="explore" class="page-view px-6 pt-32">
-        <h2 class="text-4xl font-black mb-8">Digital <span class="text-gradient">Archives</span></h2>
-        <div class="flex flex-col md:flex-row gap-6 mb-12">
-            <div class="flex-1 relative">
-                <i data-lucide="search" class="absolute left-5 top-4 text-slate-400"></i>
-                <input type="text" placeholder="Search by Tribe, Region or Ritual..." class="w-full bg-slate-900/50 border border-white/10 rounded-2xl py-4 pl-14 pr-6 focus:border-mint focus:ring-1 focus:ring-mint outline-none transition-all">
-            </div>
-            <div class="flex gap-3 overflow-x-auto no-scrollbar py-2">
-                <button class="btn-premium px-8 py-2 rounded-xl whitespace-nowrap">Tanzania All</button>
-                <button class="bg-slate-900 border border-white/10 px-8 py-2 rounded-xl whitespace-nowrap hover:border-mint transition-colors">Mtwara</button>
-                <button class="bg-slate-900 border border-white/10 px-8 py-2 rounded-xl whitespace-nowrap hover:border-mint transition-colors">Arusha</button>
-                <button class="bg-slate-900 border border-white/10 px-8 py-2 rounded-xl whitespace-nowrap hover:border-mint transition-colors">Kilimanjaro</button>
-            </div>
+        
+        <div class="flex gap-3 overflow-x-auto no-scrollbar py-1">
+            <button class="btn-premium px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                Tanzania All
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Mtwara
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Arusha
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Kilimanjaro
+            </button>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8" id="exploreGrid"></div>
-    </section>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8" id="exploreGrid"></div>
+</section>
 
     <section id="map" class="page-view px-6 pt-32 text-center">
     <h2 class="text-4xl font-black mb-4">Cartographic <span class="text-gradient">Heritage</span></h2>
