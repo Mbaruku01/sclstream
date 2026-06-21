@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ICD 3D ULTRA GALLERY</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-user-select:none;user-select:none;}
+body{background:#050403;overflow:hidden;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:grab;}
+body.dragging{cursor:grabbing;}
+canvas{display:block;position:fixed;inset:0;z-index:1;}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 32px;
+  background:linear-gradient(to bottom,rgba(10,8,6,0.95) 0%,rgba(10,8,6,0.4) 60%,transparent 100%);
+}
+.nav-logo{font-size:13px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:#f0ece4;display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:18px;height:18px;background:#c8956a;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);box-shadow:0 0 10px rgba(200,149,106,0.5);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,236,228,0.5);text-decoration:none;transition:color 0.3s,text-shadow:0.3s;}
+.nav-links a:hover{color:#f0ece4;text-shadow:0 0 8px rgba(240,236,228,0.4);}
+
+.crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;width:24px;height:24px;opacity:0.65;}
+.crosshair::before,.crosshair::after{content:'';position:absolute;background:#f0ece4;border-radius:1px;}
+.crosshair::before{width:2px;height:14px;top:5px;left:11px;}
+.crosshair::after{width:14px;height:2px;top:11px;left:5px;}
+
+.popup{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(14,11,8,0.96);border:1px solid rgba(200,149,106,0.6);
+  padding:40px 52px;text-align:center;z-index:200;
+  opacity:0;pointer-events:none;transition:opacity 0.6s cubic-bezier(0.25,1,0.5,1),transform 0.6s cubic-bezier(0.25,1,0.5,1);
+  box-shadow:0 20px 50px rgba(0,0,0,0.8);backdrop-filter:blur(8px);
+}
+.popup.show{opacity:1;pointer-events:all;}
+.popup h2{font-family:Georgia,serif;font-weight:400;font-size:36px;color:#f0ece4;letter-spacing:0.15em;margin-bottom:14px;}
+.popup p{font-size:11px;letter-spacing:0.32em;color:#c8956a;text-transform:uppercase;margin-bottom:28px;}
+.popup button{font-size:11px;letter-spacing:0.35em;text-transform:uppercase;background:transparent;border:1px solid rgba(200,149,106,0.7);color:#c8956a;padding:12px 36px;cursor:pointer;transition:all 0.3s ease;outline:none;}
+.popup button:hover{background:#c8956a;color:#0a0806;box-shadow:0 0 15px rgba(200,149,106,0.4);}
+
+.hint{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(240,236,228,0.4);z-index:100;transition:opacity 0.8s;pointer-events:none;text-align:center;line-height:1.8;}
+.hint.gone{opacity:0;}
+
+/* Mobile Navigation Pads */
+.mobile-controls{
+  position:fixed;bottom:32px;right:32px;z-index:150;
+  display:none;flex-direction:column;gap:12px;
+}
+.touch-btn{
+  width:64px;height:64px;background:rgba(20,16,12,0.65);
+  border:1px solid rgba(200,149,106,0.4);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:#c8956a;backdrop-filter:blur(6px);transition:all 0.2s;
+}
+.touch-btn:active{background:rgba(200,149,106,0.25);border-color:#c8956a;transform:scale(0.95);}
+.touch-btn svg{width:24px;height:24px;fill:currentColor;}
+
+#loader{position:fixed;inset:0;background:#0a0806;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+#loader h1{font-family:Georgia,serif;font-weight:400;font-size:64px;letter-spacing:0.32em;color:#f0ece4;text-shadow:0 0 20px rgba(240,236,228,0.15);}
+#loader p{font-size:11px;letter-spacing:0.5em;text-transform:uppercase;color:#c8956a;}
+.lbar{width:220px;height:2px;background:rgba(200,149,106,0.15);position:relative;overflow:hidden;}
+.lfill{height:100%;background:linear-gradient(to right,#a87343,#c8956a);width:0;transition:width 0.4s ease-out;}
+
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  .mobile-controls{display:flex;}
+  #loader h1{font-size:42px;}
+  .popup{width:85%;padding:32px 24px;}
+  .popup h2{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <h1>ICD</h1>
+  <p>3D Ultra Gallery</p>
+  <div class="lbar"><div class="lfill" id="lf"></div></div>
+</div>
+
+<div class="crosshair"></div>
+
+<div class="popup" id="popup">
+  <h2>WALL</h2>
+  <p>Discover Pieces of ICD Gallery</p>
+  <button onclick="document.getElementById('popup').classList.remove('show')">Explore →</button>
+</div>
+
+<div class="hint" id="hint">
+  Drag to look 360°<br>
+  Scroll / Two-Finger Swipe / UI Buttons to walk
+</div>
+
+<div class="mobile-controls" id="mobileControls">
+  <div class="touch-btn" id="btnForward">
+    <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </div>
+  <div class="touch-btn" id="btnBackward">
+    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ── Core Boot Loader ──
+const lf = document.getElementById('lf');
+let lp=0;
+const li=setInterval(()=>{lp=Math.min(lp+Math.random()*25,95);lf.style.width=lp+'%';},100);
+
+// ── Three.js Initialization Scene Setup ──
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x060504);
+scene.fog = new THREE.FogExp2(0x060504, 0.028);
+
+const camera = new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.05,150);
+camera.position.set(0,1.65,9);
+camera.rotation.order='YXZ'; // Traditional FPS style system
+
+const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+document.body.appendChild(renderer.domElement);
+
+// ── Highly Detailed Structural Material Maps ──
+const M=(c,r=0.8,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const mFloor  = M(0xc6bda2,0.22,0.08); // High spec premium polished concrete travertine look
+const mCeil   = M(0xededed,0.85);
+const mWall   = M(0xdfd5c6,0.75);     // Fine grain plaster finish
+const mWood   = M(0x764f32,0.6);      // Walnut paneling
+const mDWood  = M(0x22160a,0.55);     // Dark textured ebony trim architectural elements
+const mMarble = M(0xece3d4,0.14,0.1);  // High reflection honed slab marble
+const mChair  = M(0xbd976a,0.65);
+const mGold   = M(0xcda46b,0.25,0.9);   // Polished structural architectural brass metal
+const mPlant  = M(0x284216,0.85);
+const mPot    = M(0x8a7a6c,0.6);
+const mDesk   = M(0x5c3d20,0.5);
+const mBlack  = M(0x0a0a0a,0.3,0.6);
+
+// ── High Density Procedural Geometry Helpers ──
+function add(geo,mat,x,y,z,rx=0,ry=0,rz=0){
+  const m=new THREE.Mesh(geo,mat);
+  m.position.set(x,y,z); m.rotation.set(rx,ry,rz);
+  scene.add(m); return m;
+}
+const Box=(w,h,d)=>new THREE.BoxGeometry(w,h,d);
+const Cyl=(a,b,h,s=24)=>new THREE.CylinderGeometry(a,b,h,s);
+const Sph=(r,s=24)=>new THREE.SphereGeometry(r,s,s);
+const Tor=(r,t,s=16,S=48)=>new THREE.TorusGeometry(r,t,s,S);
+const Pla=(w,h)=>new THREE.PlaneGeometry(w,h);
+
+// ── Complex Architectural Lighting Infrastructure ──
+const amb=new THREE.AmbientLight(0xfff5e6,0.35); scene.add(amb);
+scene.add(new THREE.HemisphereLight(0xfff3e0,0x0f0b08,0.35));
+
+const lStrip=new THREE.MeshStandardMaterial({color:0xfffdf0,emissive:0xfffdf0,emissiveIntensity:2.0});
+const fixtureMat=new THREE.MeshStandardMaterial({color:0x221d17,metalness:0.8,roughness:0.2});
+
+function pl(x,y,z,i=2.5,c=0xfff2d4,d=15){
+  const l=new THREE.PointLight(c,i,d); l.position.set(x,y,z); scene.add(l);
+  // Detailed Recessed Ceiling Fixture Assemblies
+  add(Cyl(0.14,0.14,0.06,24), fixtureMat, x, 4.97, z);
+  add(Cyl(0.11,0.11,0.01,24), lStrip, x, 4.94, z);
+}
+
+// Complex interior high-fidelity node layout lights
+pl(0,4.6,7,2.5); pl(-3.5,4.6,2,2.0); pl(3.5,4.6,2,2.0);
+pl(0,4.6,-4,2.5); pl(-3.5,4.6,-10,2.0); pl(3.5,4.6,-10,2.0);
+pl(0,4.6,-18,2.2); pl(-3.5,4.6,-26,2.2); pl(3.5,4.6,-26,2.2);
+pl(0,4.6,-34,2.2); pl(0,4.6,-44,2.5); pl(0,4.6,-54,3.0);
+pl(6.1,3.5,-2,2.5,0xffebd4,9); pl(6.1,3.5,-6,2.5,0xffebd4,9);
+pl(6.1,3.5,-10,2.5,0xffebd4,9); pl(6.1,3.5,-14,2.5,0xffebd4,9);
+pl(-6.1,3.5,-22,3.2,0xffebd4,11);
+pl(6.1,3.5,-38,3.5,0x99ffd8,11);
+pl(0,3.5,-60,4.5,0xfff2cc,16);
+
+// ── Hyper-Detailed Structural Shell (Floor, Ceiling, Baseboards, Trim) ──
+add(Pla(14,84),mFloor,0,0,-29,-Math.PI/2);
+add(Pla(14,84),mCeil, 0,5,-29, Math.PI/2);
+
+// Detailed Floor Inlay Pattern Seams
+for(let i=-6;i<=6;i+=2) add(Pla(0.03,84),M(0xa69d82,0.3),i,0.002,-29,-Math.PI/2);
+for(let z=12;z>=-72;z-=3) add(Pla(14,0.03),M(0xa69d82,0.3),0,0.002,z,-Math.PI/2);
+
+// Architectural Suspended Drop Ceiling Accent Slots
+for(let z=10;z>=-64;z-=8) {
+  add(Box(0.2,0.08,3.2),lStrip,0,4.96,z);
+  add(Box(0.24,0.02,3.24),mDWood,0,4.93,z); // Architectural frame border
+}
+
+// Baseboards and Architectural Crown Moldings (Added Wall Detail Density)
+add(Box(0.1,5,84),mWall,-7,2.5,-29);
+add(Box(0.1,5,84),mWall, 7,2.5,-29);
+add(Box(14,5,0.1),mWall, 0,2.5,-71);
+add(Box(14,5,0.1),mWall, 0,2.5, 13);
+
+// Running Baseboards along the perimeter floors
+add(Box(0.08,0.18,84),mDWood,-6.94,0.09,-29);
+add(Box(0.08,0.18,84),mDWood, 6.94,0.09,-29);
+add(Box(14,0.18,0.08),mDWood, 0,0.09,-70.92);
+
+// Structural Crown Trim moldings along ceilings
+add(Box(0.15,0.12,84),mDWood,-6.91,4.94,-29);
+add(Box(0.15,0.12,84),mDWood, 6.91,4.94,-29);
+
+// Architectural Acoustic/Pillar Rib Walls
+for(let z=11;z>=-19;z-=1.2) {
+  add(Box(0.16,5,0.08),mWood,-6.91,2.5,z);
+  add(Box(0.02,5,0.12),mGold,-6.81,2.5,z); // Brass highlights on ribs
+}
+for(let z=-17;z>=-47;z-=1.0) {
+  add(Box(0.16,5,0.08),mDWood,6.91,2.5,z);
+  add(Box(0.02,5,0.12),mGold,6.81,2.5,z);
+}
+
+// ── Hyper-Detailed Premium Reception Counter Cluster ──
+const receptionGroup = new THREE.Group();
+receptionGroup.position.set(3.4,0,2);
+// Layered architectural geometry blocks instead of single boxes
+add(Box(3.4,0.85,0.8),mDesk, 3.4,0.425,2);
+add(Box(3.5,0.06,0.86),mMarble, 3.4,0.88,2); // Overhanging marble slab counter
+add(Box(3.42,0.8,0.04),mDWood, 3.4,0.4,1.57); // Dark reveal kick panel
+add(Box(1.6,0.06,0.02),mGold, 3.4,0.62,1.54);  // Brass linear horizontal inset geometric strip
+// Desk accessory items to add density
+add(Box(0.4,0.25,0.05),mBlack, 3.0,1.02,2.1, -0.15, 0.2); // Upright slate register panel
+
+// ── High Fidelity Armchairs ──
+function chair(x,z,ry=0){
+  const g=new THREE.Group();
+  const s=new THREE.Mesh(Box(0.86,0.14,0.84),mChair); s.position.set(0,0.4,0);
+  const b=new THREE.Mesh(Box(0.86,0.68,0.12),mChair);  b.position.set(0,0.78,-0.36); b.rotation.x=-0.14;
+  const aL=new THREE.Mesh(Box(0.12,0.24,0.8),mChair); aL.position.set(-0.43,0.52,0);
+  const aR=aL.clone(); aR.position.x=0.43;
+  [s,b,aL,aR].forEach(m=>g.add(m));
+  
+  // Reinforced Realistic Chair Legs with support crossbraces
+  [[-.32,-.28],[.32,-.28],[-.32,.28],[.32,.28]].forEach(([lx,lz])=>{
+    const leg=new THREE.Mesh(Cyl(0.02,0.016,0.38,12),mGold);
+    leg.position.set(lx,0.19,lz); g.add(leg);
+  });
+  const crossBrace = new THREE.Mesh(Box(0.64,0.02,0.02), mGold);
+  crossBrace.position.set(0,0.22,0); g.add(crossBrace);
+
+  g.position.set(x,0,z); g.rotation.y=ry; scene.add(g);
+}
+chair(-3.6,4,0.6); chair(-3.6,-13,-0.4); chair(3.6,-13,Math.PI+0.4);
+chair(-3.2,-42,-0.2); chair(3.2,-42,Math.PI+0.2);
+
+// ── Multi-Tiered Pedestal/Lounge Tables ──
+function table(x,z){
+  add(Cyl(0.55,0.55,0.04,32),mMarble,x,0.72,z);
+  add(Cyl(0.58,0.58,0.02,32),mGold,x,0.70,z); // Metallic bezel lip border
+  add(Cyl(0.05,0.05,0.66,16),mGold, x,0.37,z);
+  add(Cyl(0.32,0.32,0.05,24),mDWood, x,0.025,z); // Stepped compound weight base
+}
+table(0,-13); table(0,-42);
+
+// ── High Density Luxury Planter Urns ──
+function plant(x,z){
+  add(Cyl(0.28,0.18,0.5,24),mPot, x,0.25,z);
+  add(Cyl(0.3,0.3,0.03,24),mGold, x,0.49,z); // Metallic accent ring collar
+  add(Cyl(0.04,0.05,1.3,12), mPlant,x,1.1,z);
+  const lm=new THREE.MeshStandardMaterial({color:0x34521f,roughness:0.75,side:THREE.DoubleSide});
+  // Double leaf structural count for rich visual volume density
+  for(let i=0;i<18;i++){
+    const ang=(i/18)*Math.PI*2;
+    const leaf=new THREE.Mesh(Pla(0.16,1.2),lm);
+    leaf.position.set(x+Math.sin(ang)*0.15,1.7,z+Math.cos(ang)*0.15);
+    leaf.rotation.set(-0.4+Math.random()*0.3,ang,-0.3+Math.random()*0.3);
+    scene.add(leaf);
+  }
+}
+plant(-5.6,-8); plant(5.6,-24); plant(-5.6,-36);
+
+// ── Detailed Grand Structural Floating Staircase ──
+for(let s=0;s<9;s++){
+  // Compound modular layered slabs per stair step tread
+  add(Box(2.6,0.14,0.85),mMarble,-4.7,s*0.16+0.07,-4.5-s*0.8);
+  add(Box(2.6,0.02,0.89),mGold,-4.7,s*0.16+0.15,-4.5-s*0.8); // Anti-slip bright trim strip accent
+  add(Box(2.6,0.14,0.03),mDWood,-4.7,s*0.16,-4.07-s*0.8);  // Risers shadow backing
+}
+// Multi-segment modern heavy banister assembly lines
+add(Box(0.04,1.1,7.4),mGold,-3.5,1.4,-8.6, 0.22, 0, 0);
+add(Box(0.03,0.03,7.4),mDWood,-3.5,1.92,-8.6, 0.22, 0, 0);
+
+// ── Embedded Backlit Circular Gallery Display Niches ──
+const dcCols=[0x3a7bbb,0xbb5533,0x77bb55,0xcbbb33];
+[-3,-6.5,-10,-13.5].forEach((z,i)=>{
+  add(Box(1.1,1.1,0.08),mWall,6.88,2.1,z);
+  const ring=new THREE.Mesh(Tor(0.44,0.04,16,64),mGold);
+  ring.position.set(6.87,2.1,z); ring.rotation.y=Math.PI/2; scene.add(ring);
+  
+  const backlighting=new THREE.Mesh(new THREE.CircleGeometry(0.42,32), new THREE.MeshBasicMaterial({color:0xfff6e0}));
+  backlighting.position.set(6.85,2.1,z+0.01); backlighting.rotation.y=Math.PI/2; scene.add(backlighting);
+
+  const artM=new THREE.MeshStandardMaterial({color:dcCols[i],roughness:0.1,metalness:0.5,emissive:dcCols[i],emissiveIntensity:0.4});
+  const disc=new THREE.Mesh(new THREE.SphereGeometry(0.32,24,24),artM); // Volumetric artwork node 3D sphere instead of flat disc
+  disc.scale.set(0.1,1,1);
+  disc.position.set(6.82,2.1,z); scene.add(disc);
+});
+
+// ── Multi-Layer Abstract Modern Painting ──
+{
+  add(Box(3.1,2.2,0.08),mDWood,-6.84,2.3,-22); // Gallery heavy deep frame bevel
+  add(Box(2.9,2.0,0.04),M(0xfaf6ee,0.95),-6.83,2.3,-21.96); // Canvas matte backing mat border
+  const strokes=[
+    [0,0.3,2.2,0.25,0xbf2222],
+    [-.5,-.2,1.1,0.5,0x1a3ebf],
+    [0.4,0,0.8,0.8,0xe2decb],
+    [-.2,-.5,1.5,0.2,0xbf2222],
+    [0.2,0.4,0.6,0.3,0x0f0f0f],
+    [-0.7,0.5,0.3,0.3,0xcda46b]
+  ];
+  strokes.forEach(([sx,sy,sw,sh,col])=>{
+    add(Box(sw,sh,0.03),new THREE.MeshStandardMaterial({color:col,roughness:0.6,emissive:col,emissiveIntensity:0.06}),-6.81+sx,2.3+sy,-21.92);
+  });
+}
+
+// ── Modern Complex Architectural Room Divider Louvre Grid ──
+for(let i=0;i<12;i++) {
+  add(Box(0.04,5,0.24),mWood,-2.0+i*0.34,2.5,-31);
+  add(Box(0.01,5,0.26),mGold,-1.98+i*0.34,2.5,-31); // Inset geometric metallic striping down divider ribs
+}
+add(Box(4.2,0.08,0.28),mDWood,0,4.96,-31);
+
+// ── Holographic High-Tech Digital Portrait Display ──
+{
+  add(Box(2.2,2.8,0.1),mBlack,6.84,2.3,-39);
+  add(Box(2.0,2.6,0.04),new THREE.MeshStandardMaterial({color:0x050510,roughness:0.2,emissive:0x02020a,emissiveIntensity:1.0}),6.83,2.3,-38.96);
+  const neon=new THREE.MeshStandardMaterial({color:0x00ffaa,emissive:0x00ffaa,emissiveIntensity:3.5});
+  for(let n=0;n<9;n++) add(Box(1.9,0.015,0.02),neon,6.81,1.1+n*0.3,-38.92); // Matrix alignment scanned arrays
+  
+  const face=new THREE.Mesh(Sph(0.48,24),new THREE.MeshStandardMaterial({color:0xdfb48c,roughness:0.4,emissive:0xcda46b,emissiveIntensity:0.25}));
+  face.scale.set(1,1.45,0.4); face.position.set(6.80,2.5,-38.9); face.rotation.y=Math.PI/2; scene.add(face);
+}
+
+// ── Exhibition Pedestals with Detailed Classical Artifact Sculptures ──
+function pedestal(x,z,col=0xdcd1b8){
+  add(Box(0.56,1.12,0.56),mMarble,x,0.56,z);
+  add(Box(0.6,0.04,0.6),mGold,x,1.13,z); // Finished top presentation tier plate
+  
+  // Advanced compound organic geometric artifact mesh setup
+  const artifactGroup = new THREE.Group();
+  artifactGroup.position.set(x,1.4,z);
+  
+  const coreBlob=new THREE.Mesh(Sph(0.18,16),new THREE.MeshStandardMaterial({color:col,roughness:0.1,metalness:0.3,emissive:col,emissiveIntensity:0.04}));
+  coreBlob.scale.set(1,1.6,0.7);
+  const orbitalRing = new THREE.Mesh(Tor(0.24,0.02,12,32), mGold);
+  orbitalRing.rotation.x = Math.PI/3;
+  
+  artifactGroup.add(coreBlob);
+  artifactGroup.add(orbitalRing);
+  scene.add(artifactGroup);
+}
+pedestal(-2,-47); pedestal(2,-54); pedestal(0,-61);
+
+// ── Backlit Feature Wall Mosaic Block System ──
+add(Box(6.4,3.4,0.08),mDWood,0,2.6,-70.84);
+const gColors=[0xffebd4,0xffc666,0xff9d33];
+for(let gx=-3;gx<=3;gx++){
+  for(let gy=0;gy<4;gy++){
+    const em=0.4+Math.random()*0.8, gc=gColors[Math.floor(Math.random()*3)];
+    // Multi dimensional offset projection to look high end block built
+    const dynamicDepth = 0.04 + Math.random()*0.06;
+    add(Box(0.76,0.72,dynamicDepth),new THREE.MeshStandardMaterial({color:gc,emissive:gc,emissiveIntensity:em,roughness:0.2}),gx*0.88,1.25+gy*0.8,-70.8,0,0,0);
+  }
+}
+const instL=new THREE.PointLight(0xffebd4,5,20); instL.position.set(0,2.5,-66); scene.add(instL);
+
+
+// ════════════════════════════════════════════
+//  FLOATING EXHBIT TEXTURE CANVAS CARD ENGINE
+// ════════════════════════════════════════════
+const quotes = [
+  { z: -5, headline: "FEEL", sub: "A space that moves you needs no explanation." },
+  { z: -16, headline: "BREATHE", sub: "The right room expands you from the inside out." },
+  { z: -27, headline: "BELONG", sub: "Home is where every corner knows your name." },
+  { z: -38, headline: "SILENCE", sub: "True luxury is a room that lets you hear yourself think." },
+  { z: -50, headline: "BECOME", sub: "Your space shapes you as much as you shape it." },
+  { z: -62, headline: "ETERNAL", sub: "Design that touches the heart never goes out of style." }
+];
+
+function makeQuoteTexture(headline, sub) {
+  const canvas = document.createElement('canvas');
+  canvas.width  = 1024; canvas.height = 320;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // High contrast anti-aliased dynamic font rendering matching UI
+  ctx.font = 'bold 110px Georgia, serif';
+  ctx.letterSpacing = '0.2em';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(240, 236, 228, 1.0)';
+  ctx.fillText(headline, 512, 130);
+
+  ctx.strokeStyle = 'rgba(200, 149, 106, 0.8)';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(340, 155); ctx.lineTo(684, 155); ctx.stroke();
+
+  ctx.font = '500 36px "Helvetica Neue", Helvetica, sans-serif';
+  ctx.letterSpacing = '0.14em';
+  ctx.fillStyle = 'rgba(215, 202, 182, 0.88)';
+  ctx.fillText(sub, 512, 215);
+  return canvas;
+}
+
+const quoteSprites = quotes.map(q => {
+  const canvas  = makeQuoteTexture(q.headline, q.sub);
+  const texture  = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({
+    map: texture, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+  const sprite = new THREE.Sprite(material);
+  sprite.scale.set(5.8, 5.8 * (320/1024), 1);
+  sprite.position.set(0, 2.35, q.z);
+  scene.add(sprite);
+  return { sprite, material, z: q.z };
+});
+
+const bobs = quotes.map(()=> Math.random()*Math.PI*2);
+
+// ── 360 DEGREE CONTINUOUS CAMERA LOOK ENGINE ──
+let drag=false, lx=0, ly=0, yaw=0, pitch=0;
+
+// Mouse Input
+document.addEventListener('mousedown',e=>{
+  if(e.target.closest('.mobile-controls') || e.target.closest('.popup')) return;
+  drag=true; lx=e.clientX; ly=e.clientY; document.body.classList.add('dragging');
+});
+document.addEventListener('mouseup', ()=>{drag=false; document.body.classList.remove('dragging');});
+document.addEventListener('mousemove',e=>{
+  if(!drag)return;
+  // Dynamic calculation for continuous unfiltered 360 degree panning view
+  yaw   -= (e.clientX - lx) * 0.003; 
+  pitch -= (e.clientY - ly) * 0.0025;
+  lx=e.clientX; ly=e.clientY;
+  pitch=Math.max(-0.55,Math.min(0.55,pitch)); // Safely lock polar altitude vertical axis
+});
+
+// Advanced Touch Interface (Single-finger continuous look, Two-finger forward motion translation)
+let touchStartDist = 0;
+document.addEventListener('touchstart',e=>{
+  if(e.target.closest('.mobile-controls') || e.target.closest('.popup')) return;
+  if(e.touches.length === 1) {
+    drag=true; lx=e.touches[0].clientX; ly=e.touches[0].clientY;
+  } else if(e.touches.length === 2) {
+    drag=false;
+    touchStartDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+  }
+}, {passive: false});
+
+document.addEventListener('touchend', ()=>{drag=false;});
+document.addEventListener('touchmove', e=>{
+  if(e.target.closest('.mobile-controls') || e.target.closest('.popup')) return;
+  if(e.touches.length === 1 && drag) {
+    const t=e.touches[0];
+    yaw   -= (t.clientX - lx) * 0.004; 
+    pitch -= (t.clientY - ly) * 0.003;
+    lx=t.clientX; ly=t.clientY;
+    pitch=Math.max(-0.55,Math.min(0.55,pitch));
+  } else if(e.touches.length === 2) {
+    // Two-finger distance calculation used to push navigation metrics
+    const curDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    const delta = curDist - touchStartDist;
+    targetZ = Math.max(-66, Math.min(11, targetZ + delta * 0.03));
+    touchStartDist = curDist;
+    document.getElementById('hint').classList.add('gone');
+  }
+}, {passive: false});
+
+// Depth Translation Navigation Engine (Desktop Wheels & Mobile Onscreen Pads)
+let targetZ=9;
+document.addEventListener('wheel',e=>{
+  targetZ=Math.max(-66,Math.min(11,targetZ-e.deltaY*0.04));
+  document.getElementById('hint').classList.add('gone');
+},{passive:true});
+
+// Mobile button UI continuous loops
+let holdInterval;
+function startMove(dir) {
+  document.getElementById('hint').classList.add('gone');
+  holdInterval = setInterval(() => {
+    targetZ = Math.max(-66, Math.min(11, targetZ + dir * 0.6));
+  }, 16);
+}
+function stopMove() { clearInterval(holdInterval); }
+
+document.getElementById('btnForward').addEventListener('mousedown', () => startMove(1));
+document.getElementById('btnForward').addEventListener('mouseup', stopMove);
+document.getElementById('btnForward').addEventListener('touchstart', (e) => { e.preventDefault(); startMove(1); });
+document.getElementById('btnForward').addEventListener('touchend', stopMove);
+
+document.getElementById('btnBackward').addEventListener('mousedown', () => startMove(-1));
+document.getElementById('btnBackward').addEventListener('mouseup', stopMove);
+document.getElementById('btnBackward').addEventListener('touchstart', (e) => { e.preventDefault(); startMove(-1); });
+document.getElementById('btnBackward').addEventListener('touchend', stopMove);
+
+
+let popupShown=false;
+let clock=0;
+
+// ── Optimized High Performance Animation Frame Loop ──
+function animate(){
+  requestAnimationFrame(animate);
+  clock += 0.016;
+
+  // Fluid physics camera damping interpolation
+  camera.position.z += (targetZ - camera.position.z)*0.08;
+  camera.rotation.y += (yaw     - camera.rotation.y)*0.12;
+  camera.rotation.x += (pitch   - camera.rotation.x)*0.12;
+
+  const camZ = camera.position.z;
+
+  // Dynamic Distance Ray Fade Calculation for Floating Quote Sprites
+  quoteSprites.forEach(({sprite, material, z}, i) => {
+    const dist = Math.abs(camZ - z);
+    let opacity = 0;
+    if (dist > 14) opacity = 0;
+    else if (dist > 7) opacity = 1 - (dist - 7) / 7;
+    else if (dist > 2.5) opacity = 1;
+    else opacity = Math.max(0, (dist - 2.5) / 2.5);
+    
+    material.opacity = opacity;
+    if (opacity > 0) {
+      sprite.position.y = 2.35 + Math.sin(clock * 0.6 + bobs[i]) * 0.05;
+    }
+  });
+
+  // End of Room Interaction Zone Trigger
+  if(camZ < -58 && !popupShown){ popupShown=true;  document.getElementById('popup').classList.add('show'); }
+  if(camZ > -50 && popupShown){  popupShown=false; document.getElementById('popup').classList.remove('show'); }
+
+  renderer.render(scene,camera);
+}
+
+// Window Responsive Scalability Viewport Management
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+// Boot Sequence Timing Logic
+setTimeout(()=>{
+  clearInterval(li); lf.style.width='100%';
+  setTimeout(()=>{
+    const loader=document.getElementById('loader');
+    loader.style.transition='opacity 0.6s cubic-bezier(0.55, 0, 1, 0.45)';
+    loader.style.opacity='0';
+    setTimeout(()=>loader.remove(),650);
+    animate();
+  },250);
+},1200);
+</script>
+</body>
+</html>

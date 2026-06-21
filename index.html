@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <title>Digital Heritage Stream</title>
+    <meta name="title" content="Tanzanian Cultural Heritage Archive">
+    <meta name="description" content="Explore Tanzania's rich cultural heritage. A digital archive of traditional rituals, history, and artifacts curated by Hamis Yassin Mbaruku.">
+    <meta name="keywords" content="SCL Museum, Hamis Yassin Mbaruku, Tanzania Heritage, African Culture, Digital Museum, Swahili History">
+    <meta name="author" content="Hamis Yassin Mbaruku">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yourdomain.com/">
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            /* Premium Heritage Gold Palette */
+            --gold-light: #F3E5AB;
+            --gold: #D4AF37;
+            --gold-dark: #AA7C11;
+            --charcoal: #1E1E1E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Pure black to perfectly match logo background */
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- NEW INTRO SPLASH SCREEN STYLES --- */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000; /* Matches pure black logo space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+            padding: 24px;
+        }
+
+        .splash-title {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-align: center;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: splashFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes splashFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* --- END OF SPLASH SCREEN STYLES --- */
+
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .active-tab { 
+            color: var(--gold) !important; 
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4));
+        }
+        .active-tab i { transform: translateY(-4px); transition: all 0.3s ease; }
+
+        .hero-gradient {
+            background: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 60%, rgba(212, 175, 55, 0.08) 100%);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #000000;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+            text-decoration: none;
+        }
+
+        .btn-premium:hover { 
+            opacity: 0.95; 
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .page-view { display: none; animation: fadeIn 0.5s ease-out; }
+        .page-view.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pnlm-container {
+            background: #000000 !important; 
+        }
+        .pnlm-load-box {
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 1rem !important;
+        }
+        .pnlm-lbox-text {
+            color: var(--gold) !important;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="splash-screen">
+    <h1 class="splash-title text-3xl md:text-5xl lg:text-6xl font-black tracking-widest max-w-4xl text-gradient">
+        Heritage Stream
+    </h1>
+    <p class="text-[10px] md:text-xs tracking-[0.3em] uppercase text-amber-100/40 mt-3 font-semibold animate-pulse">
+        Streaming Living Heritage
+    </p>
+</div>
+
+<header class="fixed top-0 w-full z-50 px-6 py-5 flex justify-between items-center transition-all duration-300" id="mainHeader">
+    <div class="flex items-center gap-3">
+        <div class="w-11 h-11 bg-neutral-900 rounded-xl flex items-center justify-center shadow-2xl ring-1 ring-amber-500/20 overflow-hidden">
+            <img src="pic/logo.png" alt="Heritage Stream Logo" class="w-full h-full object-cover">
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold tracking-tight uppercase text-white">
+            Heritage <span class="text-gradient">Stream</span>
+        </h1>
+    </div>
+
+    <div class="flex gap-3 items-center">
+
+        <button onclick="switchTab('explore')" class="p-2.5 bg-neutral-900/40 hover:bg-neutral-800/60 text-amber-100/80 hover:text-white rounded-full transition-colors border border-white/5 shadow-inner">
+            <i data-lucide="search" class="w-5 h-5"></i>
+        </button>
+    </div>
+</header>
+<main class="pb-32">
+    <section id="home" class="page-view active">
+    <div class="relative h-[85vh] md:h-[90vh] w-full overflow-hidden">
+        <img src="pic/flomi2.JPG" class="w-full h-full object-cover scale-105" alt="The Spirit of the Makonde">
+        <div class="absolute inset-0 hero-gradient flex flex-col justify-end px-6 pb-20 md:px-16 md:pb-32 bg-gradient-to-t from-black via-black/40 to-transparent">
+            
+            <div class="flex items-center gap-2 mb-3 md:mb-4">
+                <span class="w-6 md:w-8 h-[2px] bg-gradient-to-r from-[#D4AF37] to-transparent"></span>
+                <span class="text-amber-200/90 font-bold tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-xs uppercase">Featured Heritage Archive</span>
+            </div>
+            
+            <h2 class="text-4xl md:text-8xl font-black mb-4 md:mb-6 leading-[1.1] md:leading-none text-white">
+                The Cultural <br class="hidden md:block">
+                <span class="text-gradient">Echoes 2025</span>
+            </h2>
+            
+            <p class="max-w-2xl text-neutral-300 mb-6 md:mb-8 text-base md:text-xl leading-relaxed font-light">
+                A Collaborative Project with <span class="text-white font-medium">The Open University of Tanzania</span> Celebrating heritage, identity, and tradition.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                <button onclick="openVideo('THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania', 'PARTNERSHIP PROJECT')" class="btn-premium px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 text-base md:text-lg">
+                    <i data-lucide="play" fill="currentColor" class="w-5 h-5"></i> Watch Experience
+                </button>
+                
+                <a href="#archives" class="bg-neutral-900/60 backdrop-blur-xl px-8 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-3 border border-white/5 hover:border-amber-500/30 hover:bg-neutral-900/90 transition-all text-base text-amber-100/90 decoration-none">
+                    <i data-lucide="info" class="text-[#D4AF37] w-5 h-5"></i> Explore Vault
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="archives" class="px-6 md:px-16 -mt-12 md:-mt-16 relative z-10 space-y-12 md:space-y-16 bg-gradient-to-b from-transparent via-black to-black">
+        
+        <section id="shorts-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Cultural Shorts
+            </h3>
+            <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4" id="shortsRow">
+                
+                <div onclick="openVideo('KWIZU MOUNTAINS | SAME KILIMANJARO', 'Kilimanjaro')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/kwizu.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Kwizu Mountains">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Kwizu Mountains</p>
+                    </div>
+                </div>
+
+                <div onclick="openVideo('Preserving Tanzanian History | Makumira Cultural Archives Tour', 'Archives')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/shorts2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Makumira Archives">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Makumira Archives</p>
+                    </div>
+                </div>
+
+                <div onclick="openVideo('The Duluti Lake: Where Nature Meets Culture', 'Nature')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/shorts3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Duluti Lake">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Nature Meets Culture</p>
+                    </div>
+                </div>
+
+                <div onclick="openVideo('Welcome to Lake Duluti with ZAKIA MPODI', 'Culture')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-neutral-800 hover:border-amber-500/40 transition-colors duration-300">
+                    <img src="pic/short4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Zakia Mpodi">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-4 left-3 right-3">
+                        <p class="text-[10px] md:text-xs font-bold leading-tight uppercase tracking-wider text-amber-100/90 group-hover:text-white transition-colors">Zakia Mpodi @ Duluti</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="recent-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Most Popular Videos
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="recentRow"></div>
+        </section>
+
+        <section id="tribes-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#AA7C11] rounded-full"></span>Land & Lineage
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="tribesRow"></div>
+        </section>
+
+        <section id="herbal-section">
+            <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center gap-3 text-white">
+                <span class="w-1.5 h-6 md:w-2 md:h-8 bg-gradient-to-b from-[#D4AF37] to-[#111] rounded-full"></span>Ancestral Knowledge
+            </h3>
+            <div class="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar pb-6" id="herbalRow"></div>
+        </section>
+    </div>
+</section>
+
+<section id="explore" class="page-view px-6 pt-32 max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-8 uppercase text-white">
+        Digital <span class="text-gradient">Archives</span>
+    </h2>
+    
+    <div class="flex flex-col lg:flex-row gap-6 mb-12">
+        <div class="flex-1 relative">
+            <i data-lucide="search" class="absolute left-5 top-4 text-neutral-500 w-5 h-5"></i>
+            <input type="text" placeholder="Search by Tribe, Region or Ritual..." class="w-full bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-500 rounded-2xl py-4 pl-14 pr-6 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all shadow-inner">
+        </div>
+        
+        <div class="flex gap-3 overflow-x-auto no-scrollbar py-1">
+            <button class="btn-premium px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap">
+                Tanzania All
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Mtwara
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Arusha
+            </button>
+            
+            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+                Kilimanjaro
+            </button>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8" id="exploreGrid"></div>
+</section>
+
+<section id="map" class="page-view px-6 pt-32 text-center max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4 uppercase text-white">
+        Cartographic <span class="text-gradient">Heritage</span>
+    </h2>
+    <p class="text-neutral-400 mb-12 max-w-xl mx-auto text-sm">
+        Navigate the geographic origins of traditional practices. Click a region to view its exact location on Google Maps.
+    </p>
+    
+    <div class="max-w-5xl mx-auto bg-neutral-950 rounded-[2.5rem] p-8 md:p-12 border border-neutral-800/80 relative overflow-hidden group shadow-2xl">
+        <i data-lucide="map" class="w-48 h-48 text-amber-500/[0.02] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform duration-1000"></i>
+        
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+            
+            <button onclick="window.open('https://www.google.com/maps?q=-7.58,36.92', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Morogoro<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Vidunda</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-10.64,39.24', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mtwara<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Newala</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-4.21,37.89', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Kilimanjaro<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Same</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-3.37,36.89', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Arusha<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Meru</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-2.56,33.05', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mwanza<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Kisesa</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-1.34,34.36', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Mara<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Tarime</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-1.33,31.81', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Bukoba<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Kagera</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-11.02,37.13', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Ruvuma<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Tunduru</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-10.30,39.36', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Lindi<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Mtama</span>
+            </button>
+
+            <button onclick="window.open('https://www.google.com/maps?q=-6.16,39.20', '_blank')" 
+                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
+                Zanzibar<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Stone Town</span>
+            </button>
+            
+        </div>
+    </div>
+</section>
+
+<section id="tours" class="page-view px-6 pt-32 hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-12">
+            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 uppercase text-white">
+                Space & <span class="text-gradient">Time</span>
+            </h2>
+            <p class="text-neutral-400 max-w-2xl text-sm md:text-base">
+                360° Photospheres capturing the sacred geography of Tanzania.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            
+            <div class="glass-card rounded-3xl overflow-hidden border border-neutral-800/80 h-[400px] flex flex-col relative group shadow-2xl">
+                <div id="pano-1" class="flex-1 bg-neutral-950"></div>
+                <button onclick="togglePanoFull('pano-1')" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-3 rounded-xl border border-white/5 text-neutral-400 hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black transition-all opacity-0 group-hover:opacity-100 shadow-xl">
+                    <i data-lucide="maximize" class="w-4 h-4"></i>
+                </button>
+                <div class="p-5 bg-neutral-950 border-t border-white/5">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400/90 mb-1">National Museum</p>
+                    <h4 class="text-sm font-bold text-white tracking-wide">Inside NMT Computer Lab</h4>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl overflow-hidden border border-neutral-800/80 h-[400px] flex flex-col relative group shadow-2xl">
+                <div id="pano-2" class="flex-1 bg-neutral-950"></div>
+                <button onclick="togglePanoFull('pano-2')" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-3 rounded-xl border border-white/5 text-neutral-400 hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black transition-all opacity-0 group-hover:opacity-100 shadow-xl">
+                    <i data-lucide="maximize" class="w-4 h-4"></i>
+                </button>
+                <div class="p-5 bg-neutral-950 border-t border-white/5">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400/90 mb-1">Dar Es Salaam Region</p>
+                    <h4 class="text-sm font-bold text-white tracking-wide">Infrastructure Survey</h4>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl overflow-hidden border border-neutral-800/80 h-[400px] flex flex-col relative group shadow-2xl">
+                <div id="pano-3" class="flex-1 bg-neutral-950"></div>
+                <button onclick="togglePanoFull('pano-3')" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-3 rounded-xl border border-white/5 text-neutral-400 hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black transition-all opacity-0 group-hover:opacity-100 shadow-xl">
+                    <i data-lucide="maximize" class="w-4 h-4"></i>
+                </button>
+                <div class="p-5 bg-neutral-950 border-t border-white/5">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400/90 mb-1">Arusha</p>
+                    <h4 class="text-sm font-bold text-white tracking-wide">Insibo Family Home</h4>
+                </div>
+            </div>
+        </div>
+
+        <a href="3D.html" class="btn-premium px-8 py-4 rounded-2xl flex items-center justify-center gap-3 text-base group max-w-xs mx-auto mt-8 decoration-none">
+            <div class="relative">
+                <i data-lucide="box" class="w-5 h-5 group-hover:rotate-12 transition-transform text-black"></i>
+                <span class="absolute -top-1 -right-1 flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+            </div>
+            <span class="font-black uppercase tracking-widest text-xs text-black">Explore 3D Tour</span>
+        </a>
+    </div>
+</section>
+
+<section id="research" class="page-view px-6 pt-32 hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="mb-16">
+            <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight uppercase text-white">
+                Field <span class="text-gradient">Reports</span>
+            </h2>
+            <div class="flex flex-wrap gap-8 items-center border-l-2 border-amber-500/30 pl-8">
+                <p class="text-neutral-400 max-w-xl text-base md:text-lg leading-relaxed">
+                    A digital repository of ethnographic data collected by students from The Open University of Tanzania.
+                </p>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-black uppercase border border-amber-500/20 tracking-wider">5 Archived</span>
+                    <span class="px-4 py-2 rounded-full bg-neutral-800 text-neutral-400 text-[10px] font-black uppercase border border-neutral-700 tracking-wider">6 In-Field</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <div class="lg:col-span-7">
+                <div class="flex items-center gap-4 mb-8">
+                    <span class="text-xs font-black uppercase tracking-[0.4em] text-neutral-500">Archive / Batch 01</span>
+                    <div class="h-px flex-1 bg-neutral-900"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
+                        <div class="flex gap-6 items-center">
+                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">01</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Makene Ngoroma</h4>
+                                <p class="text-sm text-neutral-400">Morogoro — <span class="text-neutral-200">Vidunda Mountains</span></p>
+                            </div>
+                        </div>
+                        <a href="reports/Makene Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
+                        <div class="flex gap-6 items-center">
+                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">02</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Aktari Sabihi</h4>
+                                <p class="text-sm text-neutral-400">Mtwara — <span class="text-neutral-200">Newala</span></p>
+                            </div>
+                        </div>
+                        <a href="reports/Aktari Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
+                        <div class="flex gap-6 items-center">
+                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">03</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Elihaki Yonazi</h4>
+                                <p class="text-sm text-neutral-400">Kilimanjaro — <span class="text-neutral-200">Same</span></p>
+                            </div>
+                        </div>
+                        <a href="reports/Elihaki Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
+                        <div class="flex gap-6 items-center">
+                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">04</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Davison Nasari</h4>
+                                <p class="text-sm text-neutral-400">Arusha — <span class="text-neutral-200">Meru</span></p>
+                            </div>
+                        </div>
+                        <a href="reports/Davison Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
+                        <div class="flex gap-6 items-center">
+                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">05</div>
+                            <div>
+                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Alex Maungo</h4>
+                                <p class="text-sm text-neutral-400">Mwanza — <span class="text-neutral-200">Kisesa</span></p>
+                            </div>
+                        </div>
+                        <a href="reports/Alex Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="sticky top-32">
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="text-xs font-black uppercase tracking-[0.4em] text-amber-500/80">Live Feed / Batch 02</span>
+                        <div class="h-px flex-1 bg-neutral-900"></div>
+                    </div>
+
+                    <div class="bg-neutral-950 rounded-[2rem] border border-neutral-900 p-8 shadow-2xl">
+                        <div class="space-y-8">
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Yamungu Mashaka Jumanne</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Dodoma — Mchemba</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Mugini Jacob Mwera</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Mara — Tarime</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Yokshani Charles Mlyashuma</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Bukoba — Kagera</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Orpa Daniel Kijanda</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Ruvuma — Tunduru</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Abubakari Mohamedi Emilian</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Lindi — Mtama</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+
+                            <div class="relative pl-6 border-l border-neutral-800">
+                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
+                                <h5 class="text-white font-bold text-sm tracking-wide">Rotiken Torenti</h5>
+                                <p class="text-xs text-neutral-500 mb-1">Arusha — ***</p>
+                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+</main>
+
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-xl z-[60]">
+    <div class="glass-nav bg-neutral-950/90 backdrop-blur-xl rounded-[2rem] px-2 py-3.5 flex justify-around items-center shadow-2xl border border-neutral-800/80">
+        
+        <button onclick="switchTab('home')" class="nav-btn active-tab flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="home">
+            <i data-lucide="archive" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
+            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Vault</span>
+        </button>
+
+        <button onclick="switchTab('map')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="map">
+            <i data-lucide="map-pin" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
+            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Maps</span>
+        </button>
+
+        <button onclick="switchTab('tours')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="tours">
+            <i data-lucide="rotate-3d" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
+            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">360°</span>
+        </button>
+
+        <button onclick="switchTab('research')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="research">
+            <i data-lucide="book-open" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
+            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Studies</span>
+        </button>
+        
+    </div>
+</nav>
+
+<script>
+    const contentData = {
+        recentlyAdded: [
+            { title: "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania", tag: "PARTNERSHIP PROJECT", img: "pic/flomi2.JPG" },
+            { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "pic/vid1.jpg" },
+            { title: "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)", tag: "History", img: "pic/vid2.jpg" },
+            { title: "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka", tag: "Workshop", img: "pic/thumbnail.png" },
+            { title: "Chance Ezekiel of the National Museum at the Open University of Tanzania & Shimulimuli Workshop", tag: "Workshop", img: "pic/thumbnail.png" },
+            { title: "Inside Tanzania’s National Museum | Culture, History & Heritage", tag: "Museum", img: "pic/nmt.webp" },
+            { title: "Sacred Pare Dance Performances | Traditional Ceremonies in Tanzania", tag: "Pare", img: "pic/vid4.jpg" }
+        ],
+        tribes: [
+            { title: "Livestock Keeping in Pare Land 🇹🇿 | Traditional Farming in Tanzania", tag: "Farming", img: "pic/vid5.jpg" },
+            { title: "Pare Traditional Food Preparation | Authentic Tanzanian Cuisine", tag: "Pare", img: "pic/vid6.jpg" },
+            { title: "Makonde Tribe Traditional Dance – Tanzania Culture at Its Best", tag: "Makonde", img: "pic/makonde.JPG" },
+            { title: "Bama: The Special Ceremonial Dance of the Makonde | Newala, Mtwara", tag: "Makonde", img: "pic/vid7.jpg" },
+            { title: "The Hidden Sanctuary: Spiritual Oral History with Mfumwa Wajani Kibacha", tag: "History", img: "pic/vid8.webp" },
+            { title: "The Spirit of the Makonde: Traditional Dance Ceremony in Newala", tag: "Makonde", img: "pic/vid9.jpg" }
+        ],
+        herbal: [
+            { title: "The Heart of Meru Heritage: Exploring the Makumira Institute, Arusha", tag: "Meru", img: "pic/vid10.jpg" },
+            { title: "Visiting the Home of a Renowned Traditional Healer in Kisesa, Mwanza", tag: "Healer", img: "pic/vid11.webp" },
+            { title: "Inside Lake Duluti: Behind Arusha's Crater Lake", tag: "Arusha", img: "pic/vid12.webp" },
+            { title: "Hiking the Vidunda Mountains in Search of Ancient Traditions", tag: "Vidunda", img: "pic/vid13.jpg" },
+            { title: "A Hidden Waterfall in Vidunda, Morogoro!", tag: "Nature", img: "pic/vid14.png" }
+        ],
+        shorts: [
+            { title: "Meru - Arusha | Nringeringe Dance Group", tag: "Meru", img: "pic/shorts1.jpg" },
+            { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03", tag: "Arusha", img: "pic/shorts2.jpg" },
+            { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02", tag: "Arusha", img: "pic/shorts3.jpg" },
+            { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha", tag: "Arusha", img: "pic/shorts4.jpg" },
+            { title: "KWIZU MOUNTAINS | SAME KILIMANJARO", tag: "Kilimanjaro", img: "pic/kwizu.jpg" },
+            { title: "Preserving Tanzanian History | Makumira Cultural Archives Tour", tag: "Archives", img: "pic/shorts5.jpg" },
+            { title: "The Duluti Lake: Where Nature Meets Culture", tag: "Nature", img: "pic/shorts6.jpg" },
+            { title: "Welcome to Lake Duluti with ZAKIA MPODI", tag: "Culture", img: "pic/shorts7.jpg" }
+        ]
+    };
+
+    function initApp() {
+        lucide.createIcons();
+        populateRows();
+        populateExplore();
+        handleScrollEffect();
+        setupSearch();
+        
+        // --- TIMED FADE EXECUTOR FOR THE SPLASH LAYER ---
+        // Keeps the text on screen for 2.5 seconds before fading out
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            if(splash) splash.classList.add('fade-out');
+        }, 2500);
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) targetTab.classList.add('active');
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active-tab');
+            if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+                btn.classList.add('active-tab');
+            }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function populateRows() {
+        if(document.getElementById('recentRow')) document.getElementById('recentRow').innerHTML = contentData.recentlyAdded.map(i => createCard(i)).join('');
+        if(document.getElementById('tribesRow')) document.getElementById('tribesRow').innerHTML = contentData.tribes.map(i => createCard(i)).join('');
+        if(document.getElementById('herbalRow')) document.getElementById('herbalRow').innerHTML = contentData.herbal.map(i => createCard(i)).join('');
+        
+        const shortsRow = document.getElementById('shortsRow');
+        if(shortsRow) {
+            shortsRow.innerHTML = contentData.shorts.map(i => `
+                <div onclick="openVideo('${i.title.replace(/'/g, "\\'")}', '${i.tag}')" class="flex-shrink-0 w-40 md:w-48 aspect-[9/16] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/10">
+                    <img src="${i.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3">
+                        <p class="text-[10px] font-bold leading-tight uppercase tracking-tighter text-white">${i.title}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    function createCard(item, className = "w-52 md:w-80 flex-shrink-0") {
+        const safeTitle = item.title.replace(/'/g, "\\'");
+        return `
+            <div onclick="openVideo('${safeTitle}', '${item.tag}')" class="glass-card rounded-[2rem] overflow-hidden cursor-pointer group transition-all ${className}">
+                <div class="relative aspect-video overflow-hidden">
+                    <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <span class="text-[8px] text-mint font-black uppercase tracking-widest bg-slate-950/50 backdrop-blur-md px-2 py-1 rounded-md border border-white/10">${item.tag}</span>
+                    </div>
+                </div>
+                <div class="p-4 md:p-5">
+                    <h4 class="text-sm md:text-base font-bold truncate group-hover:text-mint transition-colors text-white">${item.title}</h4>
+                    <p class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-tighter">4K Unedited Footage</p>
+                </div>
+            </div>
+        `;
+    }
+
+    function populateExplore(filterText = "") {
+        const exploreGrid = document.getElementById('exploreGrid');
+        if (!exploreGrid) return;
+        const allItems = [...contentData.recentlyAdded, ...contentData.tribes, ...contentData.herbal];
+        const filtered = allItems.filter(item => 
+            item.title.toLowerCase().includes(filterText.toLowerCase()) || 
+            item.tag.toLowerCase().includes(filterText.toLowerCase())
+        );
+        exploreGrid.innerHTML = filtered.map(i => createCard(i, "w-full")).join('');
+    }
+
+    function setupSearch() {
+        const searchInput = document.querySelector('#explore input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => populateExplore(e.target.value));
+        }
+    }
+
+    function openVideo(title, tag) {
+        const videoMap = {
+            "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania": "UNBqe_b0uAA",
+            "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains": "kHeJ74uLe_U",
+            "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)": "h1s9dXYZq0g",
+            "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka": "mQJ9PjCaQ3E",
+            "Chance Ezekiel of the National Museum at the Open University of Tanzania & Shimulimuli Workshop": "RHOpTKrso9o",
+            "Inside Tanzania’s National Museum | Culture, History & Heritage": "vEWPPTGXDWs",
+            "Sacred Pare Dance Performances | Traditional Ceremonies in Tanzania": "5LFhCxWmB6Q",
+            "Livestock Keeping in Pare Land 🇹🇿 | Traditional Farming in Tanzania": "1F3myf-eo-k",
+            "Pare Traditional Food Preparation | Authentic Tanzanian Cuisine": "cTdXcmM2DiY",
+            "Makonde Tribe Traditional Dance – Tanzania Culture at Its Best": "wXWLRqz7VXY",
+            "Bama: The Special Ceremonial Dance of the Makonde | Newala, Mtwara": "W1CozcRms4k",
+            "The Hidden Sanctuary: Spiritual Oral History with Mfumwa Wajani Kibacha": "15MQScw7Lfw",
+            "The Spirit of the Makonde: Traditional Dance Ceremony in Newala": "lTzdUBh2D64",
+            "The Heart of Meru Heritage: Exploring the Makumira Institute, Arusha": "Bm-XIue9ETI",
+            "Visiting the Home of a Renowned Traditional Healer in Kisesa, Mwanza": "OIT_2Mtn2uI",
+            "Inside Lake Duluti: Behind Arusha's Crater Lake": "FhKYhNsoMkM",
+            "Hiking the Vidunda Mountains in Search of Ancient Traditions": "ufrcnCxwXhw",
+            "A Hidden Waterfall in Vidunda, Morogoro!": "qovz2xfWn0Y",
+            "Meru - Arusha | Nringeringe Dance Group": "I6-iAIeYm2Q",
+            "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03": "Vsmt_c45hXI",
+            "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02": "L9DTEWWMDvI",
+            "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha": "xHRIlMHAs1o",
+            "KWIZU MOUNTAINS | SAME KILIMANJARO": "Pt30DBBxB7A",
+            "Preserving Tanzanian History | Makumira Cultural Archives Tour": "LXj3rFzw19o",
+            "The Duluti Lake: Where Nature Meets Culture": "7RELyso8eig",
+            "Welcome to Lake Duluti with ZAKIA MPODI": "ScllVEM8cpE"
+        };
+
+        const vID = videoMap[title] || ""; 
+        const description = `SHIMULIMULI COMPANY LIMITED Heritage Archive: ${title}. Exploring ${tag} culture in 4K resolution.`;
+        window.location.href = `watch.html?v=${vID}&t=${encodeURIComponent(title)}&tag=${encodeURIComponent(tag)}&d=${encodeURIComponent(description)}`;
+    }
+
+    function handleScrollEffect() {
+        const header = document.getElementById('mainHeader');
+        if(!header) return;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('bg-slate-950/80', 'backdrop-blur-2xl', 'py-3', 'border-b', 'border-white/5');
+            } else {
+                header.classList.remove('bg-slate-950/80', 'backdrop-blur-2xl', 'py-3', 'border-b', 'border-white/5');
+            }
+        });
+    }
+
+    window.onload = initApp;
+</script>
+<script>
+    let viewers = {};
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+        
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) targetTab.classList.add('active');
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active-tab');
+            if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId)) {
+                btn.classList.add('active-tab');
+            }
+        });
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (tabId === 'tours') {
+            setTimeout(() => {
+                init360Viewers();
+            }, 100);
+        }
+    }
+
+    function init360Viewers() {
+        try {
+            if (document.getElementById('pano-1') && document.getElementById('pano-1').innerHTML === "") {
+                viewers['pano-1'] = pannellum.viewer('pano-1', {
+                    "type": "equirectangular",
+                    "panorama": "pic/PXL_20260318_081056330.PHOTOSPHERE.jpg",
+                    "autoLoad": true,
+                    "autoRotate": -1.5,
+                    "showControls": false
+                });
+
+                viewers['pano-2'] = pannellum.viewer('pano-2', {
+                    "type": "equirectangular",
+                    "panorama": "pic/PXL_20260315_102811011.PHOTOSPHERE.jpg",
+                    "autoLoad": true,
+                    "autoRotate": 1.2,
+                    "showControls": false
+                });
+
+                viewers['pano-3'] = pannellum.viewer('pano-3', {
+                    "type": "equirectangular",
+                    "panorama": "pic/PXL_20260315_042428263.PHOTOSPHERE.jpg",
+                    "autoLoad": true,
+                    "autoRotate": -1.0,
+                    "showControls": false
+                });
+
+                if(window.lucide) lucide.createIcons();
+            }
+        } catch (e) {
+            console.error("Pannellum initialization error:", e);
+        }
+    }
+
+    function togglePanoFull(id) {
+        if (viewers[id]) {
+            viewers[id].toggleFullscreen();
+        }
+    }
+</script>
+</body>
+</html>
