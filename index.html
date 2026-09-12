@@ -370,256 +370,288 @@
     </div>
 </section>
 
-<section id="explore" class="page-view px-6 pt-32 max-w-7xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-8 uppercase text-white">
-        Digital <span class="text-gradient">Archives</span>
+<section id="explore" class="page-view px-6 pt-28 pb-16 max-w-7xl mx-auto bg-[#131314] text-[#e3e2e6] font-sans font-normal antialiased">
+    
+    <!-- Title -->
+    <h2 class="text-2xl md:text-3xl font-normal tracking-wide mb-8 text-[#e3e2e6]">
+        Explore <span class="text-[#a8c7fa]">Stories</span>
     </h2>
     
-    <div class="flex flex-col lg:flex-row gap-6 mb-12">
+    <!-- Controls Container -->
+    <div class="flex flex-col lg:flex-row gap-4 mb-10">
+        
+        <!-- Search Bar Input -->
         <div class="flex-1 relative">
-            <i data-lucide="search" class="absolute left-5 top-4 text-neutral-500 w-5 h-5"></i>
-            <input type="text" placeholder="Search by Tribe, Region or Ritual..." class="w-full bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-500 rounded-2xl py-4 pl-14 pr-6 focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 outline-none transition-all shadow-inner">
+            <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-[#c4c7c5] w-4 h-4"></i>
+            <input 
+                type="text" 
+                placeholder="Search tribes, places, or traditions..." 
+                class="w-full bg-[#1e1e20] border border-[#444746]/40 text-[#e3e2e6] placeholder-[#c4c7c5] text-xs md:text-sm rounded-full py-3 pl-11 pr-5 focus:border-[#a8c7fa] focus:ring-1 focus:ring-[#a8c7fa] outline-none transition-all font-normal"
+            >
         </div>
         
-        <div class="flex gap-3 overflow-x-auto no-scrollbar py-1">
-            <button class="btn-premium px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap">
-                Tanzania All
+        <!-- Region Filter Pills -->
+        <div class="flex gap-2 overflow-x-auto no-scrollbar py-1 items-center">
+            
+            <button class="bg-[#a8c7fa] text-[#040e15] px-5 py-2 rounded-full text-xs font-normal whitespace-nowrap border-0 transition-colors cursor-pointer">
+                All Regions
             </button>
             
-            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+            <button class="bg-[#1e1e20] border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] px-5 py-2 rounded-full text-xs font-normal whitespace-nowrap transition-colors cursor-pointer">
                 Mtwara
             </button>
             
-            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+            <button class="bg-[#1e1e20] border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] px-5 py-2 rounded-full text-xs font-normal whitespace-nowrap transition-colors cursor-pointer">
                 Arusha
             </button>
             
-            <button class="bg-neutral-900 border border-neutral-800 text-amber-100/70 hover:text-white px-8 py-2 rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-amber-500/30 transition-colors shadow-sm">
+            <button class="bg-[#1e1e20] border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] px-5 py-2 rounded-full text-xs font-normal whitespace-nowrap transition-colors cursor-pointer">
                 Kilimanjaro
             </button>
+
         </div>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8" id="exploreGrid"></div>
+    <!-- Dynamic Grid Output -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6" id="exploreGrid"></div>
+
 </section>
 
-<section id="map" class="page-view px-6 pt-32 text-center max-w-7xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-4 uppercase text-white">
-        Cartographic <span class="text-gradient">Heritage</span>
+<section id="map" class="page-view px-6 pt-28 pb-16 text-center max-w-7xl mx-auto bg-[#131314] text-[#e3e2e6] font-sans font-normal antialiased">
+    
+    <!-- Title -->
+    <h2 class="text-2xl md:text-3xl font-normal tracking-wide mb-3 text-[#e3e2e6]">
+        Explore by <span class="text-[#a8c7fa]">Location</span>
     </h2>
-    <p class="text-neutral-400 mb-12 max-w-xl mx-auto text-sm">
-        Navigate the geographic origins of traditional practices. Click a region to view its exact location on Google Maps.
+    
+    <!-- Subtitle -->
+    <p class="text-[#c4c7c5] mb-10 max-w-lg mx-auto text-xs md:text-sm font-normal leading-relaxed">
+        Select a region to view its exact location and stories on Google Maps.
     </p>
     
-    <div class="max-w-5xl mx-auto bg-neutral-950 rounded-[2.5rem] p-8 md:p-12 border border-neutral-800/80 relative overflow-hidden group shadow-2xl">
-        <i data-lucide="map" class="w-48 h-48 text-amber-500/[0.02] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform duration-1000"></i>
+    <!-- Main Location Grid Container -->
+    <div class="max-w-5xl mx-auto bg-[#1e1e20] rounded-3xl p-6 md:p-10 border border-[#444746]/40 relative overflow-hidden">
         
-        <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+        <!-- Subtle Map Watermark Icon -->
+        <i data-lucide="map-pin" class="w-40 h-40 text-[#a8c7fa]/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></i>
+        
+        <!-- Region Buttons Grid -->
+        <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 w-full">
             
             <button onclick="window.open('https://www.google.com/maps?q=-7.58,36.92', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Morogoro<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Vidunda</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Morogoro
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Vidunda</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-10.64,39.24', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Mtwara<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Newala</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Mtwara
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Newala</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-4.21,37.89', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Kilimanjaro<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Same</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Kilimanjaro
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Same</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-3.37,36.89', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Arusha<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Meru</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Arusha
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Meru</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-2.56,33.05', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Mwanza<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Kisesa</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Mwanza
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Kisesa</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-1.34,34.36', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Mara<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Tarime</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Mara
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Tarime</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-1.33,31.81', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Bukoba<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Kagera</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Kagera
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Bukoba</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-11.02,37.13', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Ruvuma<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Tunduru</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Ruvuma
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Tunduru</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-10.30,39.36', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Lindi<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Mtama</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Lindi
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Mtama</span>
             </button>
 
             <button onclick="window.open('https://www.google.com/maps?q=-6.16,39.20', '_blank')" 
-                class="glass-card p-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] text-amber-100/90 hover:text-black font-bold uppercase tracking-widest text-[10px] transition-all duration-300">
-                Zanzibar<br><span class="opacity-60 text-[8px] tracking-wide block mt-0.5">Stone Town</span>
+                class="bg-[#131314] p-4 rounded-xl border border-[#444746]/30 hover:border-[#a8c7fa] hover:bg-[#2d2f31] text-[#e3e2e6] font-normal text-xs transition-colors cursor-pointer text-center">
+                Zanzibar
+                <span class="text-[#c4c7c5] text-[11px] font-normal block mt-1">Stone Town</span>
             </button>
             
         </div>
     </div>
 </section>
 
-<section id="tours" class="page-view px-4 sm:px-6 md:px-12 pt-28 pb-20 hidden">
+<section id="tours" class="page-view px-4 sm:px-6 md:px-12 pt-28 pb-20 bg-[#131314] text-[#e3e2e6] font-sans font-normal antialiased">
     <div class="max-w-7xl mx-auto">
         
-        <!-- SECTION HEADER -->
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 mb-10 border-b border-neutral-800/80">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 mb-10 border-b border-[#444746]/40">
             <div>
-                <div class="flex items-center gap-2 text-amber-500 mb-2">
-                    <i data-lucide="compass" class="w-4 h-4 animate-spin-slow"></i>
-                    <span class="text-xs font-mono uppercase tracking-[0.3em]">Immersive GIS Visuals</span>
+                <div class="flex items-center gap-2 text-[#a8c7fa] mb-2">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span class="text-xs font-normal tracking-wide">360° Views</span>
                 </div>
-                <h2 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight uppercase text-white">
-                    Space & <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-600">Time</span>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-normal tracking-wide text-[#e3e2e6]">
+                    Virtual <span class="text-[#a8c7fa]">Tours</span>
                 </h2>
             </div>
             
-            <p class="text-neutral-400 max-w-md text-sm sm:text-base leading-relaxed">
-                Interactive 360° photospheres capturing sacred geography, architectural heritage, and research sites across Tanzania.
+            <p class="text-[#c4c7c5] max-w-md text-xs sm:text-sm font-normal leading-relaxed">
+                Step inside historic sites, traditional homes, and research centers across Tanzania.
             </p>
         </div>
 
-        <!-- PHOTOSPHERE CARDS GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
+        <!-- Photosphere Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-10">
             
-            <!-- CARD 01: NMT Computer Lab -->
-            <div class="group relative bg-[#121215] rounded-3xl overflow-hidden border border-neutral-800/80 hover:border-amber-500/40 transition-all duration-300 h-[440px] flex flex-col shadow-2xl hover:shadow-[0_12px_40px_rgba(212,175,55,0.08)]">
+            <!-- Card 01: NMT Computer Lab -->
+            <div class="group relative bg-[#1e1e20] rounded-2xl overflow-hidden border border-[#444746]/40 hover:border-[#a8c7fa] transition-all duration-300 h-[420px] flex flex-col">
                 
-                <!-- Panoramic Canvas Container -->
-                <div class="relative flex-1 w-full bg-neutral-950 overflow-hidden">
+                <!-- Viewport Container -->
+                <div class="relative flex-1 w-full bg-[#131314] overflow-hidden">
                     <div id="pano-1" class="w-full h-full"></div>
 
-                    <!-- Overlay Badge & Guidance -->
+                    <!-- Badge -->
                     <div class="absolute top-4 left-4 z-20 flex items-center gap-2 pointer-events-none">
-                        <span class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[9px] font-mono font-bold uppercase tracking-widest text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
-                            <i data-lucide="rotate-3d" class="w-3 h-3"></i> 360° View
+                        <span class="px-3 py-1 rounded-full bg-[#131314]/80 backdrop-blur-md text-xs font-normal text-[#a8c7fa] border border-[#444746]/40 flex items-center gap-1.5">
+                            <i data-lucide="rotate-3d" class="w-3.5 h-3.5"></i> 360° Photo
                         </span>
                     </div>
 
-                    <!-- HUD Fullscreen Action Button -->
-                    <button onclick="togglePanoFull('pano-1')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-2.5 rounded-2xl border border-white/10 text-neutral-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all shadow-xl group-hover:opacity-100 opacity-90 sm:opacity-0">
+                    <!-- Fullscreen Action Button -->
+                    <button onclick="togglePanoFull('pano-1')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-[#1e1e20]/80 backdrop-blur-md p-2 rounded-full border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-colors cursor-pointer">
                         <i data-lucide="maximize-2" class="w-4 h-4"></i>
                     </button>
 
-                    <!-- Subtle Interaction Indicator -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
-                        <span class="text-[9px] font-mono text-neutral-400 bg-black/60 px-2.5 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
-                            <i data-lucide="move" class="w-2.5 h-2.5"></i> Drag to Explore
+                    <!-- Interaction Guide -->
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                        <span class="text-xs font-normal text-[#c4c7c5] bg-[#131314]/80 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5 border border-[#444746]/30">
+                            <i data-lucide="move" class="w-3 h-3"></i> Drag to view
                         </span>
                     </div>
                 </div>
 
                 <!-- Card Details Footer -->
-                <div class="p-5 bg-[#121215] border-t border-neutral-800/80 flex items-center justify-between">
+                <div class="p-4 bg-[#1e1e20] border-t border-[#444746]/40 flex items-center justify-between">
                     <div>
-                        <div class="flex items-center gap-1.5 text-amber-400/90 text-[10px] font-bold uppercase tracking-widest mb-0.5">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
+                        <div class="flex items-center gap-1.5 text-[#a8c7fa] text-xs font-normal mb-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                             National Museum
                         </div>
-                        <h4 class="text-sm font-bold text-white tracking-wide group-hover:text-amber-300 transition-colors">
+                        <h3 class="text-sm font-normal text-[#e3e2e6] tracking-wide">
                             Inside NMT Computer Lab
-                        </h4>
+                        </h3>
                     </div>
-                    <div class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-amber-400 transition-colors">
+                    <div class="p-2 rounded-full bg-[#131314] text-[#c4c7c5]">
                         <i data-lucide="compass" class="w-4 h-4"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- CARD 02: Infrastructure Survey -->
-            <div class="group relative bg-[#121215] rounded-3xl overflow-hidden border border-neutral-800/80 hover:border-amber-500/40 transition-all duration-300 h-[440px] flex flex-col shadow-2xl hover:shadow-[0_12px_40px_rgba(212,175,55,0.08)]">
+            <!-- Card 02: Infrastructure Survey -->
+            <div class="group relative bg-[#1e1e20] rounded-2xl overflow-hidden border border-[#444746]/40 hover:border-[#a8c7fa] transition-all duration-300 h-[420px] flex flex-col">
                 
-                <!-- Panoramic Canvas Container -->
-                <div class="relative flex-1 w-full bg-neutral-950 overflow-hidden">
+                <!-- Viewport Container -->
+                <div class="relative flex-1 w-full bg-[#131314] overflow-hidden">
                     <div id="pano-2" class="w-full h-full"></div>
 
-                    <!-- Overlay Badge & Guidance -->
+                    <!-- Badge -->
                     <div class="absolute top-4 left-4 z-20 flex items-center gap-2 pointer-events-none">
-                        <span class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[9px] font-mono font-bold uppercase tracking-widest text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
-                            <i data-lucide="rotate-3d" class="w-3 h-3"></i> 360° View
+                        <span class="px-3 py-1 rounded-full bg-[#131314]/80 backdrop-blur-md text-xs font-normal text-[#a8c7fa] border border-[#444746]/40 flex items-center gap-1.5">
+                            <i data-lucide="rotate-3d" class="w-3.5 h-3.5"></i> 360° Photo
                         </span>
                     </div>
 
-                    <!-- HUD Fullscreen Action Button -->
-                    <button onclick="togglePanoFull('pano-2')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-2.5 rounded-2xl border border-white/10 text-neutral-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all shadow-xl group-hover:opacity-100 opacity-90 sm:opacity-0">
+                    <!-- Fullscreen Action Button -->
+                    <button onclick="togglePanoFull('pano-2')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-[#1e1e20]/80 backdrop-blur-md p-2 rounded-full border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-colors cursor-pointer">
                         <i data-lucide="maximize-2" class="w-4 h-4"></i>
                     </button>
 
-                    <!-- Subtle Interaction Indicator -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
-                        <span class="text-[9px] font-mono text-neutral-400 bg-black/60 px-2.5 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
-                            <i data-lucide="move" class="w-2.5 h-2.5"></i> Drag to Explore
+                    <!-- Interaction Guide -->
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                        <span class="text-xs font-normal text-[#c4c7c5] bg-[#131314]/80 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5 border border-[#444746]/30">
+                            <i data-lucide="move" class="w-3 h-3"></i> Drag to view
                         </span>
                     </div>
                 </div>
 
                 <!-- Card Details Footer -->
-                <div class="p-5 bg-[#121215] border-t border-neutral-800/80 flex items-center justify-between">
+                <div class="p-4 bg-[#1e1e20] border-t border-[#444746]/40 flex items-center justify-between">
                     <div>
-                        <div class="flex items-center gap-1.5 text-amber-400/90 text-[10px] font-bold uppercase tracking-widest mb-0.5">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
-                            Dar Es Salaam
+                        <div class="flex items-center gap-1.5 text-[#a8c7fa] text-xs font-normal mb-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                            Dar es Salaam
                         </div>
-                        <h4 class="text-sm font-bold text-white tracking-wide group-hover:text-amber-300 transition-colors">
-                            Infrastructure Survey
-                        </h4>
+                        <h3 class="text-sm font-normal text-[#e3e2e6] tracking-wide">
+                            Field Work Survey
+                        </h3>
                     </div>
-                    <div class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-amber-400 transition-colors">
+                    <div class="p-2 rounded-full bg-[#131314] text-[#c4c7c5]">
                         <i data-lucide="compass" class="w-4 h-4"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- CARD 03: Insibo Family Home -->
-            <div class="group relative bg-[#121215] rounded-3xl overflow-hidden border border-neutral-800/80 hover:border-amber-500/40 transition-all duration-300 h-[440px] flex flex-col shadow-2xl hover:shadow-[0_12px_40px_rgba(212,175,55,0.08)]">
+            <!-- Card 03: Insibo Family Home -->
+            <div class="group relative bg-[#1e1e20] rounded-2xl overflow-hidden border border-[#444746]/40 hover:border-[#a8c7fa] transition-all duration-300 h-[420px] flex flex-col">
                 
-                <!-- Panoramic Canvas Container -->
-                <div class="relative flex-1 w-full bg-neutral-950 overflow-hidden">
+                <!-- Viewport Container -->
+                <div class="relative flex-1 w-full bg-[#131314] overflow-hidden">
                     <div id="pano-3" class="w-full h-full"></div>
 
-                    <!-- Overlay Badge & Guidance -->
+                    <!-- Badge -->
                     <div class="absolute top-4 left-4 z-20 flex items-center gap-2 pointer-events-none">
-                        <span class="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[9px] font-mono font-bold uppercase tracking-widest text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
-                            <i data-lucide="rotate-3d" class="w-3 h-3"></i> 360° View
+                        <span class="px-3 py-1 rounded-full bg-[#131314]/80 backdrop-blur-md text-xs font-normal text-[#a8c7fa] border border-[#444746]/40 flex items-center gap-1.5">
+                            <i data-lucide="rotate-3d" class="w-3.5 h-3.5"></i> 360° Photo
                         </span>
                     </div>
 
-                    <!-- HUD Fullscreen Action Button -->
-                    <button onclick="togglePanoFull('pano-3')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-black/70 backdrop-blur-md p-2.5 rounded-2xl border border-white/10 text-neutral-300 hover:bg-amber-400 hover:text-black hover:border-amber-400 transition-all shadow-xl group-hover:opacity-100 opacity-90 sm:opacity-0">
+                    <!-- Fullscreen Action Button -->
+                    <button onclick="togglePanoFull('pano-3')" title="Fullscreen View" class="absolute top-4 right-4 z-20 bg-[#1e1e20]/80 backdrop-blur-md p-2 rounded-full border border-[#444746]/40 text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-colors cursor-pointer">
                         <i data-lucide="maximize-2" class="w-4 h-4"></i>
                     </button>
 
-                    <!-- Subtle Interaction Indicator -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
-                        <span class="text-[9px] font-mono text-neutral-400 bg-black/60 px-2.5 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
-                            <i data-lucide="move" class="w-2.5 h-2.5"></i> Drag to Explore
+                    <!-- Interaction Guide -->
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+                        <span class="text-xs font-normal text-[#c4c7c5] bg-[#131314]/80 px-3 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5 border border-[#444746]/30">
+                            <i data-lucide="move" class="w-3 h-3"></i> Drag to view
                         </span>
                     </div>
                 </div>
 
                 <!-- Card Details Footer -->
-                <div class="p-5 bg-[#121215] border-t border-neutral-800/80 flex items-center justify-between">
+                <div class="p-4 bg-[#1e1e20] border-t border-[#444746]/40 flex items-center justify-between">
                     <div>
-                        <div class="flex items-center gap-1.5 text-amber-400/90 text-[10px] font-bold uppercase tracking-widest mb-0.5">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i>
+                        <div class="flex items-center gap-1.5 text-[#a8c7fa] text-xs font-normal mb-1">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                             Arusha
                         </div>
-                        <h4 class="text-sm font-bold text-white tracking-wide group-hover:text-amber-300 transition-colors">
+                        <h3 class="text-sm font-normal text-[#e3e2e6] tracking-wide">
                             Insibo Family Home
-                        </h4>
+                        </h3>
                     </div>
-                    <div class="p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-amber-400 transition-colors">
+                    <div class="p-2 rounded-full bg-[#131314] text-[#c4c7c5]">
                         <i data-lucide="compass" class="w-4 h-4"></i>
                     </div>
                 </div>
@@ -627,188 +659,256 @@
 
         </div>
 
-        <!-- BOTTOM CTA: LAUNCH FULL 3D EXPERIENCE -->
-        <div class="flex justify-center mt-6">
-            <a href="3D.html" class="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-black font-black uppercase text-xs tracking-widest hover:brightness-110 transition-all shadow-[0_10px_30px_rgba(212,175,55,0.25)] hover:shadow-[0_15px_35px_rgba(212,175,55,0.4)] no-underline">
-                <div class="relative">
-                    <i data-lucide="box" class="w-4 h-4 transition-transform group-hover:rotate-12"></i>
-                    <span class="absolute -top-1 -right-1 flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-black"></span>
-                    </span>
-                </div>
-                <span>Launch Interactive 3D Tour</span>
-                <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+        <!-- Primary Call To Action -->
+        <div class="flex justify-center mt-8">
+            <a href="3D.html" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#a8c7fa] text-[#040e15] text-xs font-normal hover:bg-[#bce0ff] transition-colors no-underline cursor-pointer">
+                <i data-lucide="box" class="w-4 h-4"></i>
+                <span>Open 3D Map Tour</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
             </a>
         </div>
 
     </div>
 </section>
 
-<section id="research" class="page-view px-6 pt-32 hidden">
+<section id="research" class="page-view px-4 sm:px-6 md:px-12 pt-28 pb-20 bg-[#131314] text-[#e3e2e6] font-sans font-normal antialiased">
     <div class="max-w-7xl mx-auto">
-        <div class="mb-16">
-            <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight uppercase text-white">
-                Field <span class="text-gradient">Reports</span>
-            </h2>
-            <div class="flex flex-wrap gap-8 items-center border-l-2 border-amber-500/30 pl-8">
-                <p class="text-neutral-400 max-w-xl text-base md:text-lg leading-relaxed">
-                    A digital repository of ethnographic data collected by students from The Open University of Tanzania.
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 mb-10 border-b border-[#444746]/40">
+            <div>
+                <div class="flex items-center gap-2 text-[#a8c7fa] mb-2">
+                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                    <span class="text-xs font-normal tracking-wide">Research & Studies</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-normal tracking-wide text-[#e3e2e6]">
+                    Field <span class="text-[#a8c7fa]">Reports</span>
+                </h2>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <p class="text-[#c4c7c5] max-w-md text-xs sm:text-sm font-normal leading-relaxed">
+                    Student research collected across Tanzania in partnership with Open University.
                 </p>
-                <div class="flex gap-4">
-                    <span class="px-4 py-2 rounded-full bg-amber-500/10 text-amber-400 text-[10px] font-black uppercase border border-amber-500/20 tracking-wider">5 Archived</span>
-                    <span class="px-4 py-2 rounded-full bg-neutral-800 text-neutral-400 text-[10px] font-black uppercase border border-neutral-700 tracking-wider">6 In-Field</span>
+                <div class="flex gap-2 shrink-0">
+                    <span class="px-3 py-1 rounded-full bg-[#004a77]/40 text-[#a8c7fa] text-xs font-normal border border-[#004a77]">
+                        5 Completed
+                    </span>
+                    <span class="px-3 py-1 rounded-full bg-[#1e1e20] text-[#c4c7c5] text-xs font-normal border border-[#444746]/40">
+                        6 In Progress
+                    </span>
                 </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Main Content Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             
+            <!-- Left Column: Completed Reports -->
             <div class="lg:col-span-7">
-                <div class="flex items-center gap-4 mb-8">
-                    <span class="text-xs font-black uppercase tracking-[0.4em] text-neutral-500">Archive / Batch 01</span>
-                    <div class="h-px flex-1 bg-neutral-900"></div>
+                <div class="flex items-center justify-between pb-4 mb-6 border-b border-[#444746]/30">
+                    <span class="text-xs font-normal text-[#a8c7fa] tracking-wide flex items-center gap-2">
+                        <i data-lucide="folder-check" class="w-4 h-4"></i>
+                        Published Reports
+                    </span>
+                    <span class="text-xs font-normal text-[#8e918f]">Batch 01</span>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
-                        <div class="flex gap-6 items-center">
-                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">01</div>
+                <div class="space-y-3">
+                    
+                    <!-- Report Item 01 -->
+                    <div class="bg-[#1e1e20] p-4 sm:p-5 rounded-2xl border border-[#444746]/40 hover:border-[#a8c7fa]/60 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-normal text-[#8e918f] w-6">01</span>
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Makene Ngoroma</h4>
-                                <p class="text-sm text-neutral-400">Morogoro — <span class="text-neutral-200">Vidunda Mountains</span></p>
+                                <h3 class="text-sm font-normal text-[#e3e2e6] mb-0.5">Makene Ngoroma</h3>
+                                <p class="text-xs font-normal text-[#c4c7c5] flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-[#a8c7fa]"></i>
+                                    Morogoro - Vidunda Mountains
+                                </p>
                             </div>
                         </div>
-                        <a href="reports/Makene Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                        <a href="reports/Makene Report.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#131314] hover:bg-[#004a77]/30 text-[#a8c7fa] border border-[#444746]/40 hover:border-[#004a77] text-xs font-normal transition-colors no-underline">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Read PDF
+                        </a>
                     </div>
 
-                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
-                        <div class="flex gap-6 items-center">
-                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">02</div>
+                    <!-- Report Item 02 -->
+                    <div class="bg-[#1e1e20] p-4 sm:p-5 rounded-2xl border border-[#444746]/40 hover:border-[#a8c7fa]/60 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-normal text-[#8e918f] w-6">02</span>
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Aktari Sabihi</h4>
-                                <p class="text-sm text-neutral-400">Mtwara — <span class="text-neutral-200">Newala</span></p>
+                                <h3 class="text-sm font-normal text-[#e3e2e6] mb-0.5">Aktari Sabihi</h3>
+                                <p class="text-xs font-normal text-[#c4c7c5] flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-[#a8c7fa]"></i>
+                                    Mtwara - Newala
+                                </p>
                             </div>
                         </div>
-                        <a href="reports/Aktari Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                        <a href="reports/Aktari Report.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#131314] hover:bg-[#004a77]/30 text-[#a8c7fa] border border-[#444746]/40 hover:border-[#004a77] text-xs font-normal transition-colors no-underline">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Read PDF
+                        </a>
                     </div>
 
-                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
-                        <div class="flex gap-6 items-center">
-                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">03</div>
+                    <!-- Report Item 03 -->
+                    <div class="bg-[#1e1e20] p-4 sm:p-5 rounded-2xl border border-[#444746]/40 hover:border-[#a8c7fa]/60 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-normal text-[#8e918f] w-6">03</span>
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Elihaki Yonazi</h4>
-                                <p class="text-sm text-neutral-400">Kilimanjaro — <span class="text-neutral-200">Same</span></p>
+                                <h3 class="text-sm font-normal text-[#e3e2e6] mb-0.5">Elihaki Yonazi</h3>
+                                <p class="text-xs font-normal text-[#c4c7c5] flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-[#a8c7fa]"></i>
+                                    Kilimanjaro - Same
+                                </p>
                             </div>
                         </div>
-                        <a href="reports/Elihaki Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                        <a href="reports/Elihaki Report.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#131314] hover:bg-[#004a77]/30 text-[#a8c7fa] border border-[#444746]/40 hover:border-[#004a77] text-xs font-normal transition-colors no-underline">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Read PDF
+                        </a>
                     </div>
 
-                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
-                        <div class="flex gap-6 items-center">
-                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">04</div>
+                    <!-- Report Item 04 -->
+                    <div class="bg-[#1e1e20] p-4 sm:p-5 rounded-2xl border border-[#444746]/40 hover:border-[#a8c7fa]/60 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-normal text-[#8e918f] w-6">04</span>
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Davison Nasari</h4>
-                                <p class="text-sm text-neutral-400">Arusha — <span class="text-neutral-200">Meru</span></p>
+                                <h3 class="text-sm font-normal text-[#e3e2e6] mb-0.5">Davison Nasari</h3>
+                                <p class="text-xs font-normal text-[#c4c7c5] flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-[#a8c7fa]"></i>
+                                    Arusha - Meru
+                                </p>
                             </div>
                         </div>
-                        <a href="reports/Davison Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                        <a href="reports/Davison Report.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#131314] hover:bg-[#004a77]/30 text-[#a8c7fa] border border-[#444746]/40 hover:border-[#004a77] text-xs font-normal transition-colors no-underline">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Read PDF
+                        </a>
                     </div>
 
-                    <div class="glass-card p-6 rounded-3xl border border-neutral-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-amber-500/30 transition-all duration-500 bg-neutral-950 shadow-xl">
-                        <div class="flex gap-6 items-center">
-                            <div class="text-4xl font-black text-neutral-900 group-hover:text-amber-500/20 transition-colors italic">05</div>
+                    <!-- Report Item 05 -->
+                    <div class="bg-[#1e1e20] p-4 sm:p-5 rounded-2xl border border-[#444746]/40 hover:border-[#a8c7fa]/60 transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-normal text-[#8e918f] w-6">05</span>
                             <div>
-                                <h4 class="text-lg font-bold text-white group-hover:text-amber-400 transition-colors tracking-wide">Alex Maungo</h4>
-                                <p class="text-sm text-neutral-400">Mwanza — <span class="text-neutral-200">Kisesa</span></p>
+                                <h3 class="text-sm font-normal text-[#e3e2e6] mb-0.5">Alex Maungo</h3>
+                                <p class="text-xs font-normal text-[#c4c7c5] flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-[#a8c7fa]"></i>
+                                    Mwanza - Kisesa
+                                </p>
                             </div>
                         </div>
-                        <a href="reports/Alex Report.pdf" target="_blank" class="w-full md:w-auto px-6 py-3 bg-neutral-900 border border-neutral-800 text-[10px] font-black uppercase tracking-widest hover:bg-gradient-to-r hover:from-[#D4AF37] hover:to-[#AA7C11] hover:text-black text-white transition-all text-center rounded-xl shadow-md">Access Document</a>
+                        <a href="reports/Alex Report.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#131314] hover:bg-[#004a77]/30 text-[#a8c7fa] border border-[#444746]/40 hover:border-[#004a77] text-xs font-normal transition-colors no-underline">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Read PDF
+                        </a>
                     </div>
+
                 </div>
             </div>
 
+            <!-- Right Column: Ongoing Work -->
             <div class="lg:col-span-5">
-                <div class="sticky top-32">
-                    <div class="flex items-center gap-4 mb-8">
-                        <span class="text-xs font-black uppercase tracking-[0.4em] text-amber-500/80">Live Feed / Batch 02</span>
-                        <div class="h-px flex-1 bg-neutral-900"></div>
+                <div class="sticky top-28">
+                    <div class="flex items-center justify-between pb-4 mb-6 border-b border-[#444746]/30">
+                        <span class="text-xs font-normal text-[#a8c7fa] tracking-wide flex items-center gap-2">
+                            <i data-lucide="loader" class="w-4 h-4"></i>
+                            Active Research
+                        </span>
+                        <span class="text-xs font-normal text-[#8e918f]">Batch 02</span>
                     </div>
 
-                    <div class="bg-neutral-950 rounded-[2rem] border border-neutral-900 p-8 shadow-2xl">
-                        <div class="space-y-8">
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Yamungu Mashaka Jumanne</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Dodoma — Mchemba</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                    <div class="bg-[#1e1e20] rounded-2xl border border-[#444746]/40 p-6">
+                        <div class="space-y-6">
+                            
+                            <div class="flex items-start gap-3 pb-4 border-b border-[#444746]/20">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Yamungu Mashaka Jumanne</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Dodoma - Mchemba</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
 
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Mugini Jacob Mwera</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Mara — Tarime</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            <div class="flex items-start gap-3 pb-4 border-b border-[#444746]/20">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Mugini Jacob Mwera</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Mara - Tarime</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
 
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Yokshani Charles Mlyashuma</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Bukoba — Kagera</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            <div class="flex items-start gap-3 pb-4 border-b border-[#444746]/20">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Yokshani Charles Mlyashuma</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Kagera - Bukoba</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
 
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Orpa Daniel Kijanda</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Ruvuma — Tunduru</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            <div class="flex items-start gap-3 pb-4 border-b border-[#444746]/20">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Orpa Daniel Kijanda</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Ruvuma - Tunduru</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
 
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Abubakari Mohamedi Emilian</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Lindi — Mtama</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            <div class="flex items-start gap-3 pb-4 border-b border-[#444746]/20">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Abubakari Mohamedi Emilian</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Lindi - Mtama</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
 
-                            <div class="relative pl-6 border-l border-neutral-800">
-                                <div class="absolute -left-[4.5px] top-1 w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(212,175,55,0.5)] animate-pulse"></div>
-                                <h5 class="text-white font-bold text-sm tracking-wide">Rotiken Torenti</h5>
-                                <p class="text-xs text-neutral-500 mb-1">Arusha — ***</p>
-                                <span class="text-[8px] font-black uppercase text-amber-400 tracking-widest">In Progress</span>
+                            <div class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full bg-[#a8c7fa] mt-1.5 shrink-0"></span>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-normal text-[#e3e2e6]">Rotiken Torenti</h4>
+                                    <p class="text-xs font-normal text-[#c4c7c5]">Arusha Region</p>
+                                </div>
+                                <span class="text-xs font-normal text-[#8e918f]">Active</span>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
+
     </div>
 </section>
 </main>
 
-<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-xl z-[60]">
-    <div class="glass-nav bg-neutral-950/90 backdrop-blur-xl rounded-[2rem] px-2 py-3.5 flex justify-around items-center shadow-2xl border border-neutral-800/80">
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md z-[60] font-sans font-normal antialiased">
+    <div class="bg-[#1e1e20]/90 backdrop-blur-md rounded-full p-1.5 flex justify-around items-center shadow-lg border border-[#444746]/40">
         
-        <button onclick="switchTab('home')" class="nav-btn active-tab flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="home">
-            <i data-lucide="archive" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
-            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Vault</span>
+        <button onclick="switchTab('home')" class="nav-btn active-tab flex-1 flex flex-col items-center gap-1 py-2 px-3 rounded-full text-[#8e918f] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-all group cursor-pointer" data-target="home">
+            <i data-lucide="archive" class="w-4 h-4 group-[.active-tab]:text-[#a8c7fa] transition-colors"></i>
+            <span class="text-[11px] font-normal tracking-wide group-[.active-tab]:text-[#a8c7fa] transition-colors">Archive</span>
         </button>
 
-        <button onclick="switchTab('map')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="map">
-            <i data-lucide="map-pin" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
-            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Maps</span>
+        <button onclick="switchTab('map')" class="nav-btn flex-1 flex flex-col items-center gap-1 py-2 px-3 rounded-full text-[#8e918f] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-all group cursor-pointer" data-target="map">
+            <i data-lucide="map-pin" class="w-4 h-4 group-[.active-tab]:text-[#a8c7fa] transition-colors"></i>
+            <span class="text-[11px] font-normal tracking-wide group-[.active-tab]:text-[#a8c7fa] transition-colors">Map</span>
         </button>
 
-        <button onclick="switchTab('tours')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="tours">
-            <i data-lucide="rotate-3d" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
-            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">360°</span>
+        <button onclick="switchTab('tours')" class="nav-btn flex-1 flex flex-col items-center gap-1 py-2 px-3 rounded-full text-[#8e918f] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-all group cursor-pointer" data-target="tours">
+            <i data-lucide="compass" class="w-4 h-4 group-[.active-tab]:text-[#a8c7fa] transition-colors"></i>
+            <span class="text-[11px] font-normal tracking-wide group-[.active-tab]:text-[#a8c7fa] transition-colors">Virtual Tours</span>
         </button>
 
-        <button onclick="switchTab('research')" class="nav-btn flex-1 flex flex-col items-center gap-1.5 text-neutral-500 hover:text-amber-400 transition-all group" data-target="research">
-            <i data-lucide="book-open" class="w-5 h-5 md:w-5 md:h-5 group-[.active-tab]:text-amber-400"></i>
-            <span class="text-[8px] font-black uppercase tracking-[0.15em] group-[.active-tab]:text-amber-400">Studies</span>
+        <button onclick="switchTab('research')" class="nav-btn flex-1 flex flex-col items-center gap-1 py-2 px-3 rounded-full text-[#8e918f] hover:text-[#e3e2e6] hover:bg-[#2d2f31] transition-all group cursor-pointer" data-target="research">
+            <i data-lucide="file-text" class="w-4 h-4 group-[.active-tab]:text-[#a8c7fa] transition-colors"></i>
+            <span class="text-[11px] font-normal tracking-wide group-[.active-tab]:text-[#a8c7fa] transition-colors">Reports</span>
         </button>
         
     </div>

@@ -12,112 +12,166 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap');
         
-        /* Swapped base canvas structures to deep pitch blacks instead of slate blues */
-        body { background-color: #050505; color: #f5f5f5; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
-        .video-container { aspect-ratio: 16 / 9; width: 100%; transition: aspect-ratio 0.5s ease; }
-        .video-container.is-short { aspect-ratio: 9 / 16; max-width: 400px; margin: 0 auto; }
+        body { 
+            background-color: #131314; 
+            color: #e3e2e6; 
+            font-family: 'Google Sans', 'Roboto', system-ui, -apple-system, sans-serif; 
+            font-weight: 400;
+            margin: 0; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .video-container { 
+            aspect-ratio: 16 / 9; 
+            width: 100%; 
+            transition: aspect-ratio 0.3s ease; 
+        }
+
+        .video-container.is-short { 
+            aspect-ratio: 9 / 16; 
+            max-width: 400px; 
+            margin: 0 auto; 
+        }
         
-        /* Rebuilt alpha channels to map perfectly against true dark neutral layers */
-        .glass { background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.03); }
+        .glass { 
+            background: rgba(30, 30, 32, 0.8); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(68, 71, 70, 0.4); 
+        }
         
-        /* Interactive actions tuned down into luxury gold border mappings on active states */
-        .btn-interact { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .btn-interact:hover { background: rgba(255, 255, 255, 0.05); border-color: #A37E2C; transform: translateY(-2px); }
+        .btn-interact { 
+            background-color: #1e1e20; 
+            border: 1px solid rgba(68, 71, 70, 0.4); 
+            color: #c4c7c5;
+            transition: all 0.2s ease; 
+        }
+
+        .btn-interact:hover { 
+            background-color: #2d2f31; 
+            border-color: #a8c7fa; 
+            color: #e3e2e6;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-[#050505]">
+<body class="min-h-screen bg-[#131314] text-[#e3e2e6] font-sans font-normal antialiased">
 
-    <header class="p-4 md:px-10 flex justify-between items-center border-b border-neutral-900/60 bg-[#050505]/90 sticky top-0 z-50 backdrop-blur-md">
-        <a href="index.html" class="flex items-center gap-2 text-neutral-500 hover:text-white transition-all group">
+    <!-- Top Navigation -->
+    <header class="p-4 md:px-10 flex justify-between items-center border-b border-[#444746]/40 bg-[#131314]/90 sticky top-0 z-50 backdrop-blur-md">
+        <a href="index.html" class="flex items-center gap-2 text-[#8e918f] hover:text-[#e3e2e6] transition-colors group no-underline">
             <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
-            <span class="font-black tracking-[0.2em] text-[9px] uppercase">Exit Vault</span>
+            <span class="text-xs font-normal tracking-wide">Back to Home</span>
         </a>
         <div class="flex items-center gap-2">
-            <span class="text-[9px] font-black text-neutral-500 uppercase tracking-[0.3em]">Streaming Platform</span>
+            <span class="text-xs font-normal text-[#8e918f] tracking-wide">Tanzania Heritage Videos</span>
         </div>
     </header>
 
-    <main class="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-8 p-4 md:p-8">
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 p-4 md:p-8">
         
+        <!-- Main Video & Metadata -->
         <div class="flex-1">
-            <div id="playerContainer" class="video-container glass rounded-[2rem] overflow-hidden shadow-2xl border border-neutral-900">
-                <iframe id="player" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div id="playerContainer" class="video-container bg-[#1e1e20] rounded-2xl overflow-hidden shadow-lg border border-[#444746]/40">
+                <iframe 
+                    id="player" 
+                    class="w-full h-full" 
+                    src="" 
+                    title="YouTube Video Player"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
             </div>
 
-            <div class="mt-8 space-y-6">
-                <h1 id="videoTitle" class="text-2xl md:text-4xl font-black tracking-tight text-white uppercase">Archive Title</h1>
+            <div class="mt-6 space-y-6">
+                <h1 id="videoTitle" class="text-xl md:text-3xl font-normal tracking-wide text-[#e3e2e6]">
+                    Loading video title...
+                </h1>
                 
-                <div class="flex flex-wrap items-center justify-between gap-6 py-5 border-y border-neutral-900">
-                    <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-[#AA7C11] to-[#D4AF37] p-0.5 shadow-xl">
-                            <img src="pic/logo.png" class="w-full h-full rounded-full object-cover bg-neutral-950">
+                <div class="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-[#444746]/40">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[#1e1e20] p-0.5 border border-[#444746]/40">
+                            <img src="pic/logo.png" alt="Logo" class="w-full h-full rounded-full object-cover">
                         </div>
+                        <span class="text-xs font-normal text-[#c4c7c5]">Shimulimuli Heritage Foundation</span>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <button onclick="goToYouTube()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider text-neutral-200">
-                            <i data-lucide="thumbs-up" class="w-4 h-4 text-amber-400"></i> Like
+                    <div class="flex items-center gap-2">
+                        <button onclick="goToYouTube()" class="btn-interact inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-normal text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] border border-[#444746]/40 transition-colors cursor-pointer">
+                            <i data-lucide="thumbs-up" class="w-4 h-4 text-[#a8c7fa]"></i>
+                            <span>Like</span>
                         </button>
-                        <button onclick="copyLink()" class="btn-interact flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-wider text-neutral-200">
-                            <i data-lucide="share-2" class="w-4 h-4 text-neutral-400"></i> Share
+                        <button onclick="copyLink()" class="btn-interact inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-normal text-[#c4c7c5] hover:text-[#e3e2e6] hover:bg-[#2d2f31] border border-[#444746]/40 transition-colors cursor-pointer">
+                            <i data-lucide="share-2" class="w-4 h-4 text-[#8e918f]"></i>
+                            <span>Share</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="glass p-6 rounded-3xl border border-neutral-900">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span id="videoTag" class="px-3 py-1 bg-amber-500/10 text-amber-400 text-[9px] font-black rounded-md border border-amber-500/20 uppercase tracking-[0.15em]">TAG</span>
-                        <span class="text-neutral-500 text-[9px] font-black uppercase tracking-widest">Verified Historical Log</span>
+                <div class="bg-[#1e1e20] p-5 rounded-2xl border border-[#444746]/40">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span id="videoTag" class="px-3 py-0.5 bg-[#004a77]/40 text-[#a8c7fa] text-xs font-normal rounded-full border border-[#004a77]">
+                            Culture
+                        </span>
+                        <span class="text-[#8e918f] text-xs font-normal">Field Recording</span>
                     </div>
-                    <p id="videoDesc" class="text-neutral-400 leading-relaxed font-normal text-base">Loading catalog metadata records...</p>
+                    <p id="videoDesc" class="text-[#c4c7c5] leading-relaxed font-normal text-xs sm:text-sm">
+                        Loading video details...
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div class="w-full lg:w-[400px] space-y-6">
-            <h3 class="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">More from the Archive</h3>
-            <div id="suggestionsList" class="space-y-5"></div>
+        <!-- Sidebar Recommendations -->
+        <div class="w-full lg:w-[360px] space-y-4">
+            <h3 class="text-xs font-normal tracking-wide text-[#a8c7fa] pb-2 border-b border-[#444746]/40">
+                More Videos
+            </h3>
+            <div id="suggestionsList" class="space-y-3"></div>
         </div>
     </main>
 
+    <!-- Script Logic -->
     <script>
     const contentData = [
-        // LANDSCAPE CONTENT (Recently Added)
-        { title: "THE CULTURAL ECHOES 2025: A Collaboration Between Shimulimuli and The Open University of Tanzania", tag: "PARTNERSHIP PROJECT", img: "pic/flomi2.JPG", vID: "L7lVp9t2vS0" }, // Added vID placeholder
-        { title: "Pare Traditional Cuisine: Authentic Flavors and Heritage from the Pare Mountains", tag: "Cuisine", img: "pic/vid1.jpg", vID: "kHeJ74uLe_U" },
-        { title: "The Migration of the Ngoni Tribe: Professor Gastor Mapunda (Chief Advisor, Shimulimuli)", tag: "History", img: "pic/vid2.jpg", vID: "h1s9dXYZq0g" },
-        { title: "Shimulimuli & The Open University of Tanzania Workshop: Insights from CEO Felician Tomeka", tag: "Workshop", img: "pic/thumbnail.png", vID: "mQJ9PjCaQ3E" },
-        { title: "Chance Ezekiel of the National Museum at the Open University of Tanzania & Shimulimuli Workshop", tag: "Workshop", img: "pic/thumbnail.png", vID: "RHOpTKrso9o" },
-        { title: "Inside Tanzania’s National Museum | Culture, History & Heritage", tag: "Museum", img: "pic/nmt.webp", vID: "vEWPPTGXDWs" },
-        { title: "Sacred Pare Dance Performances | Traditional Ceremonies in Tanzania", tag: "Pare", img: "pic/vid4.jpg", vID: "5LFhCxWmB6Q" },
+        // LANDSCAPE CONTENT
+        { title: "The Cultural Echoes 2025: Collaboration with The Open University of Tanzania", tag: "Partnership", img: "pic/flomi2.JPG", vID: "L7lVp9t2vS0" },
+        { title: "Pare Traditional Cuisine: Authentic Flavors from the Pare Mountains", tag: "Food", img: "pic/vid1.jpg", vID: "kHeJ74uLe_U" },
+        { title: "The Migration of the Ngoni People with Prof. Gastor Mapunda", tag: "History", img: "pic/vid2.jpg", vID: "h1s9dXYZq0g" },
+        { title: "Open University Workshop Insights from CEO Felician Tomeka", tag: "Workshop", img: "pic/thumbnail.png", vID: "mQJ9PjCaQ3E" },
+        { title: "National Museum Insights with Chance Ezekiel", tag: "Workshop", img: "pic/thumbnail.png", vID: "RHOpTKrso9o" },
+        { title: "Tanzania National Museum: Culture, History & Heritage", tag: "Museum", img: "pic/nmt.webp", vID: "vEWPPTGXDWs" },
+        { title: "Traditional Pare Dance & Ceremonies in Tanzania", tag: "Dance", img: "pic/vid4.jpg", vID: "5LFhCxWmB6Q" },
         
         // Tribes
-        { title: "Livestock Keeping in Pare Land 🇹🇿 | Traditional Farming in Tanzania", tag: "Farming", img: "pic/vid5.jpg", vID: "1F3myf-eo-k" },
-        { title: "Pare Traditional Food Preparation | Authentic Tanzanian Cuisine", tag: "Pare", img: "pic/vid6.jpg", vID: "cTdXcmM2DiY" },
-        { title: "Makonde Tribe Traditional Dance – Tanzania Culture at Its Best", tag: "Makonde", img: "pic/makonde.JPG", vID: "wXWLRqz7VXY" },
-        { title: "Bama: The Special Ceremonial Dance of the Makonde | Newala, Mtwara", tag: "Makonde", img: "pic/vid7.jpg", vID: "W1CozcRms4k" },
-        { title: "The Hidden Sanctuary: Spiritual Oral History with Mfumwa Wajani Kibacha", tag: "History", img: "pic/vid8.webp", vID: "15MQScw7Lfw" },
-        { title: "The Spirit of the Makonde: Traditional Dance Ceremony in Newala", tag: "Makonde", img: "pic/vid9.jpg", vID: "lTzdUBh2D64" },
+        { title: "Traditional Farming & Livestock Keeping in Pare Land", tag: "Farming", img: "pic/vid5.jpg", vID: "1F3myf-eo-k" },
+        { title: "Pare Food Preparation and Cooking Methods", tag: "Food", img: "pic/vid6.jpg", vID: "cTdXcmM2DiY" },
+        { title: "Makonde Traditional Dance Performances", tag: "Dance", img: "pic/makonde.JPG", vID: "wXWLRqz7VXY" },
+        { title: "Bama Ceremonial Dance of the Makonde in Newala, Mtwara", tag: "Dance", img: "pic/vid7.jpg", vID: "W1CozcRms4k" },
+        { title: "Oral History with Mfumwa Wajani Kibacha", tag: "History", img: "pic/vid8.webp", vID: "15MQScw7Lfw" },
+        { title: "Makonde Dance Celebration in Newala", tag: "Dance", img: "pic/vid9.jpg", vID: "lTzdUBh2D64" },
         
-        // Herbal/Nature
-        { title: "The Heart of Meru Heritage: Exploring the Makumira Institute, Arusha", tag: "Meru", img: "pic/vid10.jpg", vID: "Bm-XIue9ETI" },
-        { title: "Visiting the Home of a Renowned Traditional Healer in Kisesa, Mwanza", tag: "Healer", img: "pic/vid11.webp", vID: "OIT_2Mtn2uI" },
-        { title: "Inside Lake Duluti: Behind Arusha's Crater Lake", tag: "Arusha", img: "pic/vid12.webp", vID: "FhKYhNsoMkM" },
-        { title: "Hiking the Vidunda Mountains in Search of Ancient Traditions", tag: "Vidunda", img: "pic/vid13.jpg", vID: "ufrcnCxwXhw" },
-        { title: "A Hidden Waterfall in Vidunda, Morogoro!", tag: "Nature", img: "pic/vid14.png", vID: "qovz2xfWn0Y" },
+        // Herbal / Nature
+        { title: "The Makumira Institute Heritage Center in Arusha", tag: "Heritage", img: "pic/vid10.jpg", vID: "Bm-XIue9ETI" },
+        { title: "Traditional Healing Practices in Kisesa, Mwanza", tag: "Tradition", img: "pic/vid11.webp", vID: "OIT_2Mtn2uI" },
+        { title: "Inside Lake Duluti Crater Lake, Arusha", tag: "Nature", img: "pic/vid12.webp", vID: "FhKYhNsoMkM" },
+        { title: "Exploring Traditions in the Vidunda Mountains", tag: "Hiking", img: "pic/vid13.jpg", vID: "ufrcnCxwXhw" },
+        { title: "Hidden Waterfall in Vidunda, Morogoro", tag: "Nature", img: "pic/vid14.png", vID: "qovz2xfWn0Y" },
 
-        // CULTURAL SHORTS
-        { title: "Meru - Arusha | Nringeringe Dance Group", tag: "Meru", img: "pic/shorts1.jpg", vID: "I6-iAIeYm2Q", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 03", tag: "Arusha", img: "pic/shorts2.jpg", vID: "Vsmt_c45hXI", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha | 02", tag: "Arusha", img: "pic/shorts3.jpg", vID: "L9DTEWWMDvI", isShort: true },
-        { title: "Exploring the Cultural Arts Center (CAC) at Makumira Institute, Arusha", tag: "Arusha", img: "pic/shorts4.jpg", vID: "xHRIlMHAs1o", isShort: true },
-        { title: "KWIZU MOUNTAINS | SAME KILIMANJARO", tag: "Kilimanjaro", img: "pic/kwizu.jpg", vID: "Pt30DBBxB7A", isShort: true },
-        { title: "Preserving Tanzanian History | Makumira Cultural Archives Tour", tag: "Archives", img: "pic/shorts5.jpg", vID: "LXj3rFzw19o", isShort: true },
-        { title: "The Duluti Lake: Where Nature Meets Culture", tag: "Nature", img: "pic/shorts6.jpg", vID: "7RELyso8eig", isShort: true },
-        { title: "Welcome to Lake Duluti with ZAKIA MPODI", tag: "Culture", img: "pic/shorts7.jpg", vID: "ScllVEM8cpE", isShort: true }
+        // SHORTS
+        { title: "Nringeringe Dance Group in Meru, Arusha", tag: "Dance", img: "pic/shorts1.jpg", vID: "I6-iAIeYm2Q", isShort: true },
+        { title: "Cultural Arts Center at Makumira Institute (Part 3)", tag: "Arts", img: "pic/shorts2.jpg", vID: "Vsmt_c45hXI", isShort: true },
+        { title: "Cultural Arts Center at Makumira Institute (Part 2)", tag: "Arts", img: "pic/shorts3.jpg", vID: "L9DTEWWMDvI", isShort: true },
+        { title: "Cultural Arts Center at Makumira Institute (Part 1)", tag: "Arts", img: "pic/shorts4.jpg", vID: "xHRIlMHAs1o", isShort: true },
+        { title: "Kwizu Mountains in Same, Kilimanjaro", tag: "Nature", img: "pic/kwizu.jpg", vID: "Pt30DBBxB7A", isShort: true },
+        { title: "Makumira Cultural Archives Tour", tag: "Archives", img: "pic/shorts5.jpg", vID: "LXj3rFzw19o", isShort: true },
+        { title: "Lake Duluti Nature & Cultural Tour", tag: "Nature", img: "pic/shorts6.jpg", vID: "7RELyso8eig", isShort: true },
+        { title: "Welcome to Lake Duluti with Zakia Mpodi", tag: "Culture", img: "pic/shorts7.jpg", vID: "ScllVEM8cpE", isShort: true }
     ];
 
     window.onload = () => {
@@ -133,16 +187,19 @@
             const currentVideo = contentData.find(i => i.vID === vID);
             const playerContainer = document.getElementById('playerContainer');
             
-            if(currentVideo && currentVideo.isShort) {
-                if(playerContainer) playerContainer.classList.add('is-short');
+            if (currentVideo && currentVideo.isShort) {
+                if (playerContainer) playerContainer.classList.add('is-short');
             } else {
-                if(playerContainer) playerContainer.classList.remove('is-short');
+                if (playerContainer) playerContainer.classList.remove('is-short');
             }
             
-            document.getElementById('player').src = `https://www.youtube.com/embed/${vID}?autoplay=1&modestbranding=1&rel=0`;
-            document.getElementById('videoTitle').innerText = decodeURIComponent(vTitle) || "SHIMULIMULI Archive";
+            // Fixed YouTube embed URL format preventing Error 153
+            const origin = encodeURIComponent(window.location.origin);
+            document.getElementById('player').src = `https://www.youtube-nocookie.com/embed/${vID}?autoplay=1&enablejsapi=1&origin=${origin}&rel=0`;
+            
+            document.getElementById('videoTitle').innerText = decodeURIComponent(vTitle) || "Tanzania Heritage Video";
             document.getElementById('videoTag').innerText = decodeURIComponent(vTag) || "Culture";
-            document.getElementById('videoDesc').innerText = decodeURIComponent(vDesc) || "Exploring Tanzanian heritage.";
+            document.getElementById('videoDesc').innerText = decodeURIComponent(vDesc) || "Exploring cultural heritage across Tanzania.";
             renderSuggestions(decodeURIComponent(vTitle));
         } else {
             window.location.href = 'index.html';
@@ -151,38 +208,46 @@
 
     function renderSuggestions(currentTitle) {
         const list = document.getElementById('suggestionsList');
-        if(!list) return;
+        if (!list) return;
         
         list.innerHTML = contentData
             .filter(item => item.title !== currentTitle)
             .map(item => `
-                <div onclick="playNext('${item.vID}', '${item.title.replace(/'/g, "\\'")}', '${item.tag}')" class="flex gap-4 group cursor-pointer">
-                    <div class="relative w-32 h-20 md:w-40 md:h-24 flex-shrink-0 rounded-[1.5rem] overflow-hidden ring-1 ring-white/10 shadow-lg">
-                        <img src="${item.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute bottom-2 right-2 p-1 bg-black/60 backdrop-blur-md rounded text-[8px] font-bold">${item.isShort ? 'SHORT' : '4K'}</div>
+                <div onclick="playNext('${item.vID}', '${item.title.replace(/'/g, "\\'")}', '${item.tag}')" class="flex gap-3 p-2 rounded-xl hover:bg-[#1e1e20] transition-colors group cursor-pointer border border-transparent hover:border-[#444746]/40">
+                    <div class="relative w-28 h-18 md:w-32 md:h-20 flex-shrink-0 rounded-lg overflow-hidden bg-[#1e1e20]">
+                        <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover">
+                        <div class="absolute bottom-1 right-1 px-1.5 py-0.5 bg-[#131314]/80 rounded text-[9px] font-normal text-[#e3e2e6]">
+                            ${item.isShort ? 'Short' : 'Video'}
+                        </div>
                     </div>
-                    <div class="flex-1 py-1">
-                        <h4 class="text-xs md:text-sm font-bold leading-tight group-hover:text-mint transition-colors line-clamp-2 text-white">${item.title}</h4>
-                        <p class="text-[9px] text-slate-500 uppercase mt-2 font-black tracking-tighter">${item.tag}</p>
+                    <div class="flex-1 min-w-0 py-0.5">
+                        <h4 class="text-xs font-normal leading-snug text-[#e3e2e6] group-hover:text-[#a8c7fa] transition-colors line-clamp-2">
+                            ${item.title}
+                        </h4>
+                        <p class="text-[11px] text-[#8e918f] font-normal mt-1">
+                            ${item.tag}
+                        </p>
                     </div>
                 </div>
             `).join('');
     }
 
     function playNext(v, t, tag) {
-        const d = `SHIMULIMULI Heritage Archive: ${t}. Exploring ${tag} culture in 4K resolution.`;
+        const d = `Exploring ${tag} traditions and heritage in Tanzania.`;
         window.location.href = `watch.html?v=${v}&t=${encodeURIComponent(t)}&tag=${encodeURIComponent(tag)}&d=${encodeURIComponent(d)}`;
     }
 
     function goToYouTube() {
         const vID = new URLSearchParams(window.location.search).get('v');
-        window.open(`https://www.youtube.com/watch?v=${vID}`, '_blank');
+        if (vID) {
+            window.open(`https://www.youtube.com/watch?v=${vID}`, '_blank');
+        }
     }
 
     function copyLink() {
         navigator.clipboard.writeText(window.location.href);
-        alert("Archive Link Copied");
+        alert("Link copied to clipboard.");
     }
-</script>
+    </script>
 </body>
 </html>
